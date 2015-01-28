@@ -24,6 +24,8 @@ public:
 	Vec2 releasePoint;
 	long millisecondNow()  ;
 	long pressTime;
+    long canMove;
+    float jumpInterval;
     void updateLoop(float delta);
     Sprite * mainRole;
     // implement the "static create()" method manually

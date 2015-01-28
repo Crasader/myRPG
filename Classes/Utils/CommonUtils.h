@@ -11,7 +11,7 @@
 #include "iostream"
 #include "cocos2d.h"
 
-#include "CocosGUI.h"
+#include "ui/CocosGUI.h"
 #include "extensions/cocos-ext.h"
 #include "cocostudio/CocoStudio.h"
 #include "editor-support/cocostudio/CCSGUIReader.h"

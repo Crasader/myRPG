@@ -53,14 +53,17 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(mainRole, 0);
     
-
+    canMove = false;
+    jumpInterval = 0;
 	 auto listener1 = EventListenerTouchOneByOne::create();//¥¥Ω®“ª∏ˆ¥•√˛º‡Ã˝    
     listener1->setSwallowTouches(true);//…Ë÷√≤ªœÎœÚœ¬¥´µ›¥•√˛  true «≤ªœÎ ƒ¨»œŒ™false  
     listener1->onTouchBegan = [this](Touch* touch, Event* event){   
         CCLOG("touch menu");  
 		pressPoint = touch->getLocationInView();
 		isPress = true;
-		pressTime = millisecondNow();
+//		pressTime = millisecondNow();
+        jumpInterval = 0;
+        canMove = false;
 		CCLOG("onTouchBegan pressTime = %ld pressPoint x = %f pressPoint y = %f",pressTime ,pressPoint.x,pressPoint.y);
         return true;   
     };
@@ -72,16 +75,17 @@ bool HelloWorld::init()
     listener1->onTouchEnded = [=](Touch* touch, Event* event){    
 		releasePoint = touch->getLocationInView();
 
-		long now = millisecondNow();
+//		long now = millisecondNow();
         
-        CCLOG("onTouchEnded now = %ld releasePoint x = %f releasePoint y = %f",now ,releasePoint.x,releasePoint.y);
-		long delt_time = now - pressTime;
-		if(delt_time < 1000)
+        CCLOG("onTouchEnded releasePoint x = %f releasePoint y = %f" ,releasePoint.x,releasePoint.y);
+//		long delt_time = now - pressTime;
+		if(canMove == false)
 		{
             Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_STEP_LEN);
 			
 			MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
 			mainRole->runAction(move);
+            
 		}
 
 		isPress = false;
@@ -97,16 +101,31 @@ void HelloWorld::updateLoop(float delta)
 {
     if(isPress)
     {
-        float delt_x = movePoint.x - pressPoint.x;
-        float delt_y = movePoint.y - pressPoint.y;
-        if( (delt_x * delt_x + delt_y * delt_y) > MAX_MOVE_LEN * MAX_MOVE_LEN)
+        jumpInterval += delta;
+        
+        if(jumpInterval < 0.5)
         {
+            canMove = false;
+        }
+        else
+        {
+            canMove = true ;
+        }
+        
+        if(canMove == true)
+        {
+            float delt_x = movePoint.x - pressPoint.x;
+            float delt_y = movePoint.y - pressPoint.y;
+            if( (delt_x * delt_x + delt_y * delt_y) > MAX_MOVE_LEN * MAX_MOVE_LEN)
+            {
+                
+                Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, movePoint, MOVE_STEP_LEN);
+                
+                float spX = mainRole->getPositionX();
+                float spY = mainRole->getPositionY();
+                mainRole->setPosition(spX + deltVec.x, spY + deltVec.y);
+            }
             
-            Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, movePoint, MOVE_STEP_LEN);
-            
-            float spX = mainRole->getPositionX();
-            float spY = mainRole->getPositionY();
-            mainRole->setPosition(spX + deltVec.x, spY + deltVec.y);
         }
     }
 }
