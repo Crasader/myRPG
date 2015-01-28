@@ -1,9 +1,10 @@
 #include "HelloWorldScene.h"
 #include "CommonUtils.h"
 
-#define JUMP_STEP_LEN (80)
+#define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2)
-#define JUMP_INTERVAL (0.5)
+#define JUMP_INTERVAL (0.3)
+#define JUMP_MAX_TIME (0.3)
 #define MAX_MOVE_LEN (50)
 bool isPress = false;
 Scene* HelloWorld::createScene()
@@ -103,7 +104,7 @@ void HelloWorld::updateLoop(float delta)
     {
         jumpInterval += delta;
         
-        if(jumpInterval < 0.5)
+        if(jumpInterval < JUMP_INTERVAL)
         {
             canMove = false;
         }
