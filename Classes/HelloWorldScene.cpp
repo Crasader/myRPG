@@ -1,9 +1,10 @@
 #include "HelloWorldScene.h"
 #include "CommonUtils.h"
 
-#define JUMP_LEN (80)
+#define JUMP_STEP_LEN (80)
+#define MOVE_STEP_LEN (2)
 #define JUMP_INTERVAL (0.5)
-
+#define MAX_MOVE_LEN (50)
 bool isPress = false;
 Scene* HelloWorld::createScene()
 {
@@ -44,13 +45,13 @@ bool HelloWorld::init()
 	this->setColor(cocos2d::Color3B::GREEN);
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("f1.png");
+    mainRole = Sprite::create("f1.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    mainRole->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    this->addChild(mainRole, 0);
     
 
 	 auto listener1 = EventListenerTouchOneByOne::create();//¥¥Ω®“ª∏ˆ¥•√˛º‡Ã˝    
@@ -63,7 +64,9 @@ bool HelloWorld::init()
 		CCLOG("onTouchBegan pressTime = %ld pressPoint x = %f pressPoint y = %f",pressTime ,pressPoint.x,pressPoint.y);
         return true;   
     };
-    listener1->onTouchMoved = [](Touch* touch, Event* event){      
+    listener1->onTouchMoved = [this](Touch* touch, Event* event){
+        movePoint = touch->getLocationInView();
+        
     };    
     
     listener1->onTouchEnded = [=](Touch* touch, Event* event){    
@@ -75,10 +78,10 @@ bool HelloWorld::init()
 		long delt_time = now - pressTime;
 		if(delt_time < 1000)
 		{
-            Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_LEN);
+            Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_STEP_LEN);
 			
 			MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
-			sprite->runAction(move);
+			mainRole->runAction(move);
 		}
 
 		isPress = false;
@@ -86,10 +89,27 @@ bool HelloWorld::init()
       
       _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,this);  
 
-
+    schedule(schedule_selector(HelloWorld::updateLoop));
     return true;
 }
 
+void HelloWorld::updateLoop(float delta)
+{
+    if(isPress)
+    {
+        float delt_x = movePoint.x - pressPoint.x;
+        float delt_y = movePoint.y - pressPoint.y;
+        if( (delt_x * delt_x + delt_y * delt_y) > MAX_MOVE_LEN * MAX_MOVE_LEN)
+        {
+            
+            Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, movePoint, MOVE_STEP_LEN);
+            
+            float spX = mainRole->getPositionX();
+            float spY = mainRole->getPositionY();
+            mainRole->setPosition(spX + deltVec.x, spY + deltVec.y);
+        }
+    }
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

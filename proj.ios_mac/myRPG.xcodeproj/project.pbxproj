@@ -333,8 +333,8 @@
 		A571EDC41A7968B600E4704B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				A571EDC51A7968B600E4704B /* CommonUtils.cpp */,
 				A571EDC61A7968B600E4704B /* CommonUtils.h */,
+				A571EDC51A7968B600E4704B /* CommonUtils.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

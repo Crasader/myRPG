@@ -17,11 +17,15 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
 	bool isPress;
-
-	Vec2 pressPoint;
+    
+    Vec2 pressPoint;
+    Vec2 movePoint;
+    
 	Vec2 releasePoint;
 	long millisecondNow()  ;
 	long pressTime;
+    void updateLoop(float delta);
+    Sprite * mainRole;
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
