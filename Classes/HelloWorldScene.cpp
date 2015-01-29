@@ -5,7 +5,8 @@
 #define MOVE_STEP_LEN (2)
 #define JUMP_INTERVAL (0.3)
 #define JUMP_MAX_TIME (0.3)
-#define MAX_MOVE_LEN (50)
+#define MIN_MOVE_TOUCH_LEN (50)
+#define MAX_ATK_TOUCH_LEN (10)
 bool isPress = false;
 Scene* HelloWorld::createScene()
 {
@@ -54,7 +55,7 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(mainRole, 0);
     
-    canMove = false;
+    isShortTime = false;
     jumpInterval = 0;
 	 auto listener1 = EventListenerTouchOneByOne::create();//¥¥Ω®“ª∏ˆ¥•√˛º‡Ã˝    
     listener1->setSwallowTouches(true);//…Ë÷√≤ªœÎœÚœ¬¥´µ›¥•√˛  true «≤ªœÎ ƒ¨»œŒ™false  
@@ -64,7 +65,7 @@ bool HelloWorld::init()
 		isPress = true;
 //		pressTime = millisecondNow();
         jumpInterval = 0;
-        canMove = false;
+        isShortTime = false;
 		CCLOG("onTouchBegan pressTime = %ld pressPoint x = %f pressPoint y = %f",pressTime ,pressPoint.x,pressPoint.y);
         return true;   
     };
@@ -80,12 +81,26 @@ bool HelloWorld::init()
         
         CCLOG("onTouchEnded releasePoint x = %f releasePoint y = %f" ,releasePoint.x,releasePoint.y);
 //		long delt_time = now - pressTime;
-		if(canMove == false)
+		if(isShortTime == true)
 		{
-            Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_STEP_LEN);
-			
-			MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
-			mainRole->runAction(move);
+            float delt_x = releasePoint.x - pressPoint.x;
+            float delt_y = releasePoint.y - pressPoint.y;
+            if( (delt_x * delt_x + delt_y * delt_y) < MAX_ATK_TOUCH_LEN * MAX_ATK_TOUCH_LEN)
+            {
+                
+                Blink * blink = Blink::create(1.0f, 5);
+                mainRole->runAction(blink);
+            }
+            else
+            {
+                
+                Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_STEP_LEN);
+                
+                MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
+                mainRole->runAction(move);
+            }
+            
+            
             
 		}
 
@@ -106,18 +121,18 @@ void HelloWorld::updateLoop(float delta)
         
         if(jumpInterval < JUMP_INTERVAL)
         {
-            canMove = false;
+            isShortTime = true;
         }
         else
         {
-            canMove = true ;
+            isShortTime = false ;
         }
         
-        if(canMove == true)
+        if(isShortTime == false)
         {
             float delt_x = movePoint.x - pressPoint.x;
             float delt_y = movePoint.y - pressPoint.y;
-            if( (delt_x * delt_x + delt_y * delt_y) > MAX_MOVE_LEN * MAX_MOVE_LEN)
+            if( (delt_x * delt_x + delt_y * delt_y) > MIN_MOVE_TOUCH_LEN * MIN_MOVE_TOUCH_LEN)
             {
                 
                 Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, movePoint, MOVE_STEP_LEN);

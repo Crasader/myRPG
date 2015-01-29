@@ -24,7 +24,7 @@ public:
 	Vec2 releasePoint;
 	long millisecondNow()  ;
 	long pressTime;
-    long canMove;
+    long isShortTime;
     float jumpInterval;
     void updateLoop(float delta);
     Sprite * mainRole;
