@@ -111,12 +111,31 @@ bool HelloWorld::init()
 
     schedule(schedule_selector(HelloWorld::updateLoop));
     
-    for (int i=0; i<4; i++) {
+    //创建怪物
+    for (int i=0; i< 8; i++) {
         Monster * monster = new Monster();
         monsters.push_back(monster);
-        monster->sp->setPosition(CommonUtils::RandAmongMinMax(0,visibleSize.width),CommonUtils::RandAmongMinMax(0,visibleSize.height));
+        monster->sp->setPosition(CommonUtils::RandAmongMinMax(0 + 40 ,visibleSize.width - 40 )
+                                 ,CommonUtils::RandAmongMinMax(0 + 40,visibleSize.height - 40));
         this->addChild(monster->sp);
     }
+    
+    //
+    auto s = Director::getInstance()->getWinSize();
+    
+    auto draw = DrawNode::create();
+    addChild(draw, 10);
+    
+    // 画10个圆，实际上是画了10个点，指定点的大小，所以看起来就是圆；
+    for( int i=0; i < 10; i++)
+    {
+        draw->drawDot(Vec2(s.width/2, s.height/2), 10*(10-i), Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
+    }
+    
+    // 画多边形
+    Vec2 points[] = { Vec2(s.height/4,0), Vec2(s.width,s.height/5), Vec2(s.width/3*2,s.height) };
+    draw->drawPolygon(points, sizeof(points)/sizeof(points[0]), Color4F(1,0,0,0.5), 4, Color4F(0,0,1,1));
+    
     
     return true;
 }
@@ -153,15 +172,16 @@ void HelloWorld::updateLoop(float delta)
         }
     }
     
+    //怪物AI
     if(true)
     {
-        //怪物AI
         unsigned long count = monsters.size();
         int i=0;
         vector<Monster *>::iterator it = monsters.begin();
         for (it = monsters.begin(), i=0; it != monsters.end(), i<count; ++it , i++) {
             Sprite * monsterSp = monsters[i]->sp;
             Sprite * roleSp = MainRole::getInstance()->sp;
+            
             float delt_x = monsterSp->getPositionX() - roleSp->getPositionX();
             float delt_y = monsterSp->getPositionY() - roleSp->getPositionY();
             if( (monsters[i]->isActive == false) && (delt_x * delt_x + delt_y * delt_y) < MAX_SCAN_LEN * MAX_SCAN_LEN)
@@ -170,17 +190,28 @@ void HelloWorld::updateLoop(float delta)
                 
             }
             
+            bool skLenReady = (delt_x * delt_x + delt_y * delt_y) < monsters[i]->skLen;
+            
             if (monsters[i]->isActive == true) {
                 
-                Vec2 deltVec = CommonUtils::getVecByAngleAndLen(monsterSp->getPosition(), roleSp->getPosition(), MOVE_STEP_LEN);
+                if(skLenReady == false)
+                {
+                    Vec2 deltVec = CommonUtils::getVecByAngleAndLen(monsterSp->getPosition(), roleSp->getPosition(), MOVE_STEP_LEN);
+                    
+                    //                CCLOG("HelloWorld::updateLoop monsterSp x = %f monsterSp y = %f" ,monsterSp->getPositionX(),monsterSp->getPositionY());
+                    //                CCLOG("HelloWorld::updateLoop roleSp x = %f roleSp y = %f" ,roleSp->getPositionX(),roleSp->getPositionY());
+                    
+                    float spX = monsterSp->getPositionX();
+                    float spY = monsterSp->getPositionY();
+                    monsterSp->setPosition(spX + deltVec.x, spY + deltVec.y);
+                    //                CCLOG("HelloWorld::updateLoop spX + deltVec.x x = %f spY + deltVec.y y = %f" ,spX + deltVec.x,spY + deltVec.y);
+                    
+                }
+                else
+                {
+                    
+                }
                 
-//                CCLOG("HelloWorld::updateLoop monsterSp x = %f monsterSp y = %f" ,monsterSp->getPositionX(),monsterSp->getPositionY());
-//                CCLOG("HelloWorld::updateLoop roleSp x = %f roleSp y = %f" ,roleSp->getPositionX(),roleSp->getPositionY());
-                
-                float spX = monsterSp->getPositionX();
-                float spY = monsterSp->getPositionY();
-                monsterSp->setPosition(spX + deltVec.x, spY + deltVec.y);
-//                CCLOG("HelloWorld::updateLoop spX + deltVec.x x = %f spY + deltVec.y y = %f" ,spX + deltVec.x,spY + deltVec.y);
             }
 
             

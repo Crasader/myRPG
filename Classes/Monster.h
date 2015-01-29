@@ -9,7 +9,7 @@ class Monster
 public:
     Monster();
     ~Monster();
-
+    void startAtk();
     Sprite * sp;
     int hp;
     int def;
@@ -17,6 +17,10 @@ public:
     int chance;
     int lv;
     int skID;
+    int skLen;//技能释放长度
+    int skIv;//技能吟唱时间
+    bool skStart;
+    
     bool isActive;
 };
 

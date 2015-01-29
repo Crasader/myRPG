@@ -19,7 +19,8 @@ Monster::Monster()
     this->def=6;
     this->atk=3;
     this->chance=1;
-    
+    this->skLen = 30;
+    this->skStart = false;
     this->isActive = false;
     
 }
@@ -27,4 +28,23 @@ Monster::Monster()
 Monster::~Monster()
 {
     
+}
+
+void Monster::startAtk()
+{
+    isActive = true;
+    auto draw = DrawNode::create();
+    this->sp->addChild(draw);
+    
+    // 画10个圆，实际上是画了10个点，指定点的大小，所以看起来就是圆；
+//    for( int i=0; i < 10; i++)
+    {
+        draw->drawDot(Vec2(this->sp->getPositionX(), this->sp->getPositionY()), this->skLen, Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
+    }
+    draw->setPosition(this->sp->getPositionX(), this->sp->getContentSize().height);
+    
+    
+    // 画多边形
+//    Vec2 points[] = { Vec2(s.height/4,0), Vec2(s.width,s.height/5), Vec2(s.width/3*2,s.height) };
+//    draw->drawPolygon(points, sizeof(points)/sizeof(points[0]), Color4F(1,0,0,0.5), 4, Color4F(0,0,1,1));
 }
