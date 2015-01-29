@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "CommonUtils.h"
+#include "MainRole.h"
 
 #define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2)
@@ -7,7 +8,11 @@
 #define JUMP_MAX_TIME (0.3)
 #define MIN_MOVE_TOUCH_LEN (50)
 #define MAX_ATK_TOUCH_LEN (10)
+
+#define MAX_SCAN_LEN (150)
 bool isPress = false;
+
+const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -37,71 +42,66 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	/*
-	LayerColor *base = LayerColor::create();
-	base->setColor(cocos2d::Color3B::GREEN);
-	
-    base->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-	this->addChild(base);
-	*/
+    Layer * bg = Layer::create();
+    int bgImgIdx = CommonUtils::RandAmongMinMax(0, 1);
+    Sprite * bgSp = Sprite::create(bgImage[bgImgIdx]);
+    bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    bgSp->setScale(visibleSize.width / bgSp->getContentSize().width, visibleSize.height / bgSp->getContentSize().height);
+    
+//    bg->setColor(Color3B::BLUE);
+    
+    bg->addChild(bgSp);
+    
+    this->addChild(bg);
+
 	this->setColor(cocos2d::Color3B::GREEN);
 
     // add "HelloWorld" splash screen"
-    mainRole = Sprite::create("f1.png");
-
-    // position the sprite on the center of the screen
-    mainRole->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    MainRole::getInstance()->sp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
-    this->addChild(mainRole, 0);
+    this->addChild(MainRole::getInstance()->sp, 0);
     
     isShortTime = false;
     jumpInterval = 0;
-	 auto listener1 = EventListenerTouchOneByOne::create();//¥¥Ω®“ª∏ˆ¥•√˛º‡Ã˝    
-    listener1->setSwallowTouches(true);//…Ë÷√≤ªœÎœÚœ¬¥´µ›¥•√˛  true «≤ªœÎ ƒ¨»œŒ™false  
+	 auto listener1 = EventListenerTouchOneByOne::create();
+    listener1->setSwallowTouches(true);
     listener1->onTouchBegan = [this](Touch* touch, Event* event){   
         CCLOG("touch menu");  
-		pressPoint = touch->getLocationInView();
+		pressPoint = touch->getLocation();
 		isPress = true;
-//		pressTime = millisecondNow();
         jumpInterval = 0;
         isShortTime = false;
-		CCLOG("onTouchBegan pressTime = %ld pressPoint x = %f pressPoint y = %f",pressTime ,pressPoint.x,pressPoint.y);
-        return true;   
+//		CCLOG("onTouchBegan pressTime = %ld pressPoint x = %f pressPoint y = %f",pressTime ,pressPoint.x,pressPoint.y);
+        return true;
     };
     listener1->onTouchMoved = [this](Touch* touch, Event* event){
-        movePoint = touch->getLocationInView();
+        movePoint = touch->getLocation();
         
     };    
     
     listener1->onTouchEnded = [=](Touch* touch, Event* event){    
-		releasePoint = touch->getLocationInView();
+		releasePoint = touch->getLocation();
 
-//		long now = millisecondNow();
         
-        CCLOG("onTouchEnded releasePoint x = %f releasePoint y = %f" ,releasePoint.x,releasePoint.y);
-//		long delt_time = now - pressTime;
+//        CCLOG("onTouchEnded releasePoint x = %f releasePoint y = %f" ,releasePoint.x,releasePoint.y);
+
 		if(isShortTime == true)
 		{
             float delt_x = releasePoint.x - pressPoint.x;
             float delt_y = releasePoint.y - pressPoint.y;
             if( (delt_x * delt_x + delt_y * delt_y) < MAX_ATK_TOUCH_LEN * MAX_ATK_TOUCH_LEN)
             {
-                
                 Blink * blink = Blink::create(1.0f, 5);
-                mainRole->runAction(blink);
+                MainRole::getInstance()->sp->runAction(blink);
             }
             else
             {
-                
                 Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, releasePoint, JUMP_STEP_LEN);
                 
                 MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
-                mainRole->runAction(move);
+                MainRole::getInstance()->sp->runAction(move);
             }
-            
-            
-            
 		}
 
 		isPress = false;
@@ -110,6 +110,14 @@ bool HelloWorld::init()
       _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,this);  
 
     schedule(schedule_selector(HelloWorld::updateLoop));
+    
+    for (int i=0; i<4; i++) {
+        Monster * monster = new Monster();
+        monsters.push_back(monster);
+        monster->sp->setPosition(CommonUtils::RandAmongMinMax(0,visibleSize.width),CommonUtils::RandAmongMinMax(0,visibleSize.height));
+        this->addChild(monster->sp);
+    }
+    
     return true;
 }
 
@@ -137,13 +145,54 @@ void HelloWorld::updateLoop(float delta)
                 
                 Vec2 deltVec = CommonUtils::getVecByAngleAndLen(pressPoint, movePoint, MOVE_STEP_LEN);
                 
-                float spX = mainRole->getPositionX();
-                float spY = mainRole->getPositionY();
-                mainRole->setPosition(spX + deltVec.x, spY + deltVec.y);
+                float spX = MainRole::getInstance()->sp->getPositionX();
+                float spY = MainRole::getInstance()->sp->getPositionY();
+                MainRole::getInstance()->sp->setPosition(spX + deltVec.x, spY + deltVec.y);
             }
             
         }
     }
+    
+    if(true)
+    {
+        //怪物AI
+        unsigned long count = monsters.size();
+        int i=0;
+        vector<Monster *>::iterator it = monsters.begin();
+        for (it = monsters.begin(), i=0; it != monsters.end(), i<count; ++it , i++) {
+            Sprite * monsterSp = monsters[i]->sp;
+            Sprite * roleSp = MainRole::getInstance()->sp;
+            float delt_x = monsterSp->getPositionX() - roleSp->getPositionX();
+            float delt_y = monsterSp->getPositionY() - roleSp->getPositionY();
+            if( (monsters[i]->isActive == false) && (delt_x * delt_x + delt_y * delt_y) < MAX_SCAN_LEN * MAX_SCAN_LEN)
+            {
+                monsters[i]->isActive = true;
+                
+            }
+            
+            if (monsters[i]->isActive == true) {
+                
+                Vec2 deltVec = CommonUtils::getVecByAngleAndLen(monsterSp->getPosition(), roleSp->getPosition(), MOVE_STEP_LEN);
+                
+//                CCLOG("HelloWorld::updateLoop monsterSp x = %f monsterSp y = %f" ,monsterSp->getPositionX(),monsterSp->getPositionY());
+//                CCLOG("HelloWorld::updateLoop roleSp x = %f roleSp y = %f" ,roleSp->getPositionX(),roleSp->getPositionY());
+                
+                float spX = monsterSp->getPositionX();
+                float spY = monsterSp->getPositionY();
+                monsterSp->setPosition(spX + deltVec.x, spY + deltVec.y);
+//                CCLOG("HelloWorld::updateLoop spX + deltVec.x x = %f spY + deltVec.y y = %f" ,spX + deltVec.x,spY + deltVec.y);
+            }
+
+            
+            Size visibleSize = Director::getInstance()->getVisibleSize();
+            if(monsterSp->getPositionX() < -40 || monsterSp->getPositionX() > visibleSize.width + 40
+               || monsterSp->getPositionY() < -40 || monsterSp->getPositionY() > visibleSize.height + 40)
+            {
+                monsters.erase(it);
+            }
+        }
+    }
+    
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

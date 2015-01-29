@@ -154,7 +154,7 @@ char* CommonUtils::getNameByURL(const char *theURL)
 Vec2 CommonUtils::getVecByAngleAndLen(Vec2 from,Vec2 to,float len)
 {
     float x_len = to.x - from.x;
-    float y_len = -(to.y - from.y);
+    float y_len = (to.y - from.y);
 
     
     float delt_y = sqrtf((float)len * (float)len * y_len * y_len / (x_len * x_len + y_len * y_len));

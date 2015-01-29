@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "Monster.h"
 
 USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
@@ -16,6 +17,8 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    std::vector<Monster *> monsters;
+    
 	bool isPress;
     
     Vec2 pressPoint;
@@ -27,7 +30,7 @@ public:
     long isShortTime;
     float jumpInterval;
     void updateLoop(float delta);
-    Sprite * mainRole;
+//    Sprite * mainRole;
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
