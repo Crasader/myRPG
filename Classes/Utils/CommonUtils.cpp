@@ -1,4 +1,4 @@
-//
+﻿//
 //  CommonUtils.cpp
 //  jxtczclient3.0
 //

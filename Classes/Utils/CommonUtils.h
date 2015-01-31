@@ -12,13 +12,13 @@
 #include "cocos2d.h"
 
 #include "ui/CocosGUI.h"
-#include "extensions/cocos-ext.h"
+//#include "extensions/cocos-ext.h"
 #include "cocostudio/CocoStudio.h"
 #include "editor-support/cocostudio/CCSGUIReader.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
-using namespace cocos2d::extension;
+//using namespace cocos2d::extension;
 using namespace cocostudio;
 using namespace std;
 

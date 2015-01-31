@@ -4,21 +4,24 @@
 #include "cocos2d.h"
 
 USING_NS_CC;
-class MainRole
+class MainRole : public Sprite
 {
 public:
     MainRole();
     ~MainRole();
-    
-    static MainRole* getInstance();
-    Sprite * sp;
+
+	static MainRole* create(const std::string& filename);
+
     int hp;
     int def;
     int atk;
     int chance;
     int lv;
     int skID;
-    
+    void jump(Vec2 from ,Vec2 to);
+	void move(Vec2 from ,Vec2 to);
+	void attack();
+	
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+#endif // __MAIN_ROLE_H__

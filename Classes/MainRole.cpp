@@ -1,8 +1,8 @@
 #include "MainRole.h"
-#include "CommonUtils.h"
+#include "Utils/CommonUtils.h"
 
 #define JUMP_STEP_LEN (100)
-#define MOVE_STEP_LEN (2)
+#define MOVE_STEP_LEN (2.9)
 #define JUMP_INTERVAL (0.3)
 #define JUMP_MAX_TIME (0.3)
 #define MIN_MOVE_TOUCH_LEN (50)
@@ -12,8 +12,7 @@
 static MainRole *s_instance = nullptr;
 MainRole::MainRole()
 {
-    this->sp = Sprite::create("f1.png");
-    this->lv=1;
+	this->lv=1;
     this->hp=100;
     this->def=6;
     this->atk=3;
@@ -26,13 +25,37 @@ MainRole::~MainRole()
     
 }
 
-MainRole* MainRole::getInstance()
+MainRole* MainRole::create(const std::string& filename)
 {
-    if (!s_instance)
+    MainRole *sprite = new (std::nothrow) MainRole();
+    if (sprite && sprite->initWithFile(filename))
     {
-        s_instance = new (std::nothrow) MainRole();
-        CCASSERT(s_instance, "FATAL: Not enough memory");
+        sprite->autorelease();
+        return sprite;
     }
-    
-    return s_instance;
+    CC_SAFE_DELETE(sprite);
+    return nullptr;
+}
+
+void MainRole::jump(Vec2 from ,Vec2 to)
+{
+	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, JUMP_STEP_LEN);
+                
+    MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
+    this->runAction(move);
+}
+
+void MainRole::move(Vec2 from ,Vec2 to)
+{
+	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, MOVE_STEP_LEN);
+                
+    float spX = this->getPositionX();
+    float spY = this->getPositionY();
+    this->setPosition(spX + deltVec.x, spY + deltVec.y);
+}
+
+void MainRole::attack()
+{              
+	Blink * blink = Blink::create(1.0f, 5);
+    this->runAction(blink);
 }

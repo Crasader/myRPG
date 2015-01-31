@@ -8,27 +8,26 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
 {
 public:
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+
     static cocos2d::Scene* createScene();
 
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+
     virtual bool init();
     
-    // a selector callback
+
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    std::vector<Monster *> monsters;
     
 	bool isPress;
     
     Vec2 pressPoint;
     Vec2 movePoint;
-    
 	Vec2 releasePoint;
-	long millisecondNow()  ;
-	long pressTime;
-    long isShortTime;
+
+    bool isShortTime;
     float jumpInterval;
+
+	long millisecondNow()  ;
+
     void updateLoop(float delta);
 //    Sprite * mainRole;
     // implement the "static create()" method manually

@@ -2,15 +2,20 @@
 #define __MONSTER_H__
 
 #include "cocos2d.h"
+#include "2d/CCNode.h"
+#include "MainRole.h"
+
 
 USING_NS_CC;
-class Monster
+
+class Monster : public Sprite
 {
 public:
     Monster();
     ~Monster();
-    void startAtk();
-    Sprite * sp;
+	static Monster* create(const std::string& filename);
+    void attack();
+
     int hp;
     int def;
     int atk;
@@ -22,6 +27,9 @@ public:
     bool skStart;
     
     bool isActive;
+	MainRole * m_taget;
+	void setTaget(MainRole *taget);
+	void updateLoop(float delta);
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+#endif // __MONSTER_H__
