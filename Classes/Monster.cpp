@@ -62,8 +62,8 @@ void Monster::attack()
 	
 	proBg->setPosition(this->getContentSize().width / 2,this->getContentSize().height / 2 + 50);
 	
-	Vec2 rolePos = m_taget->getPosition();
-	skill->setPosition(rolePos.x, rolePos.y);
+	skillPos = m_taget->getPosition();
+	skill->setPosition(skillPos.x, skillPos.y);
 
 	ProgressTo* progressTo = CCProgressTo::create(this->skIv,100);
 	//创建进度条渲染器，载体为精灵
@@ -111,7 +111,7 @@ void Monster::updateLoop(float delta)
         }
         bool skLenReady = (delt_x * delt_x + delt_y * delt_y) < this->skLen *  this->skLen;
            
-        if (this->isActive == true) {
+        if (this->isActive == true && m_taget->isDead == false) {
 			if(skLenReady == false && isAtk == false)
             {
                 Vec2 deltVec = CommonUtils::getVecByAngleAndLen(monsterSp->getPosition(), roleSp->getPosition(), MONSTER_STEP_LEN);
@@ -143,12 +143,24 @@ void Monster::updateLoop(float delta)
 
 				if(atkTime >= this->skIv)
 				{
+                    
+                    Vec2 rolePos = m_taget->getPosition();
+                    Vec2 deltPos = rolePos - skillPos;
+                    float distance = rolePos.distance(skillPos);
+                    if(distance < this->skLen)
+                    {
+                        m_taget->hp -= 20;
+                    }
+                    
 					isAtk =  false;
 					atkTime = 0;
+                    
+                    
 					ptSkill->removeFromParent();
 					skill->removeFromParent();
 					proBg->removeFromParent();
-					
+
+                    
 				}
 			}
         }

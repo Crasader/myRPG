@@ -13,6 +13,8 @@ MainRole::MainRole()
     this->def=6;
     this->atk=3;
     this->chance=1;
+    this->isDead = false;
+    schedule(schedule_selector(MainRole::updateLoop));
 }
 
 MainRole::~MainRole()
@@ -40,6 +42,10 @@ void MainRole::setGameLayer(GameLayer *layer)
 
 void MainRole::jump(Vec2 from ,Vec2 to)
 {
+    if(this->isDead == true)
+    {
+        return;
+    }
 	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, JUMP_STEP_LEN);
                 
     MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
@@ -48,6 +54,10 @@ void MainRole::jump(Vec2 from ,Vec2 to)
 
 void MainRole::move(Vec2 from ,Vec2 to)
 {
+    if(this->isDead == true)
+    {
+        return;
+    }
 	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, MOVE_STEP_LEN);
                 
     float spX = this->getPositionX();
@@ -56,7 +66,20 @@ void MainRole::move(Vec2 from ,Vec2 to)
 }
 
 void MainRole::attack()
-{              
+{
+    if(this->isDead == true)
+    {
+        return;
+    }
 	Blink * blink = Blink::create(1.0f, 5);
     this->runAction(blink);
+}
+
+void MainRole::updateLoop(float delta)
+{
+    if(this->hp <= 0)
+    {
+        this->isDead = true;
+        this->setColor(Color3B(128, 128, 128));
+    }
 }

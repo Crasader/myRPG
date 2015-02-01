@@ -31,6 +31,7 @@ public:
 	GameLayer * m_gameLayer;
 	MainRole * m_taget;
 	
+    Vec2 skillPos;
 	
 	Sprite * proBg;
 	Sprite * skill;

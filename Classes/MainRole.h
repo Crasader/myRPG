@@ -23,9 +23,12 @@ public:
 	void move(Vec2 from ,Vec2 to);
 	void attack();
 	
+    bool isDead;
 	GameLayer * m_gameLayer;
 	
 	void setGameLayer(GameLayer *layer);
+    
+    void updateLoop(float delta);
 };
 
 #endif // __MAIN_ROLE_H__
