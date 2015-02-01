@@ -25,11 +25,12 @@ Monster::Monster()
     this->def=6;
     this->atk=3;
     this->chance=1;
-    this->skLen = 30;
-	this->skIv = 1.5;
+    this->skLen = 50;
+	this->skIv = 1.8;
 	this->isAtk = false;
     this->isActive = false;
     this->atkTime = 0;
+	
 	m_taget = NULL;
 	schedule(schedule_selector(Monster::updateLoop));
 }
@@ -58,44 +59,37 @@ void Monster::attack()
 		return;
 	}
     isAtk = true;
-    skillDrawNode = DrawNode::create();
-	
-    skillProcessDrawNode = DrawNode::create();
-	
-	this->m_gameLayer->m_skillLayer->addChild(skillDrawNode);
-	this->addChild(skillProcessDrawNode);
-    
-    auto s = Director::getInstance()->getWinSize();
 
+	proBg = Sprite::create("skProgressBg.png");
+	skill = Sprite::create("skill.png");
+	
+	proBg->setScale(3.0);
+	this->addChild(proBg);
+	this->m_gameLayer->m_skillLayer->addChild(skill);
+	
+	proBg->setPosition(this->getContentSize().width / 2,this->getContentSize().height / 2 + 50);
+	
 	Vec2 rolePos = m_taget->getPosition();
-	Vec2 thisPos = this->getPosition();
+	skill->setPosition(rolePos.x, rolePos.y);
 
-	skillProcessDrawNode->drawRect(
-		Vec2(this->getContentSize().width / 2 - SKILL_PRO_W / 2, this->getContentSize().height + SKILL_PRO_H / 2)
-		,Vec2(this->getContentSize().width / 2 + SKILL_PRO_W / 2, this->getContentSize().height - SKILL_PRO_H / 2)
-		,Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
+	ProgressTo* progressTo = CCProgressTo::create(this->skIv,100);
+	//创建进度条渲染器，载体为精灵
+	ptSkill = ProgressTimer::create(Sprite::create("skProgress.png"));
+	ptSkill->setType(ProgressTimer::Type::BAR);
 
-	skillDrawNode->drawDot(Vec2(rolePos.x, rolePos.y), this->skLen, Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
-    
+	ptSkill->setBarChangeRate(Vec2(1,0));//高为100%  
+    ptSkill->setMidpoint(Vec2(0,0));//设置增长中心  
 
+	ptSkill->runAction(progressTo);
+	
+	ptSkill->setPosition(this->getContentSize().width / 2 ,this->getContentSize().height / 2 + 50);
+
+	ptSkill->setScale(3.0);
+
+	this->addChild(ptSkill);
+	
 	CCLOG("attack getPositionY = %f getPositionY = %f",getPositionX(),getPositionY());
-    //
-	/*
-    auto s = Director::getInstance()->getWinSize();
-    
-    auto draw = DrawNode::create();
-    addChild(draw, 10);
-    
-    // 画10个圆，实际上是画了10个点，指定点的大小，所以看起来就是圆；
-    for( int i=0; i < 10; i++)
-    {
-        draw->drawDot(Vec2(s.width/2, s.height/2), 10*(10-i), Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
-    }
-    
-    // 画多边形
-    Vec2 points[] = { Vec2(s.height/4,0), Vec2(s.width,s.height/5), Vec2(s.width/3*2,s.height) };
-    draw->drawPolygon(points, sizeof(points)/sizeof(points[0]), Color4F(1,0,0,0.5), 4, Color4F(0,0,1,1));
-    */
+
 }
 
 void Monster::setTaget(MainRole *taget)
@@ -122,7 +116,7 @@ void Monster::updateLoop(float delta)
         {
             this->isActive = true;
         }
-        bool skLenReady = (delt_x * delt_x + delt_y * delt_y) < this->skLen;
+        bool skLenReady = (delt_x * delt_x + delt_y * delt_y) < this->skLen *  this->skLen;
            
         if (this->isActive == true) {
 			if(skLenReady == false && isAtk == false)
@@ -147,22 +141,23 @@ void Monster::updateLoop(float delta)
 			{
 				this->atkTime += delta;
 
+				float present = 0.5 + this->atkTime / this->skIv / 2;
+
+				GLubyte opacity= present * 255;
+
+				skill->setOpacity(opacity);
+				
+
 				if(atkTime >= this->skIv)
 				{
 					isAtk =  false;
 					atkTime = 0;
-					skillProcessDrawNode->removeFromParent();
+					ptSkill->removeFromParent();
+					skill->removeFromParent();
+					proBg->removeFromParent();
+					
 				}
 			}
-
         }
-		/*
-        Size visibleSize = Director::getInstance()->getVisibleSize();
-        if(monsterSp->getPositionX() < -40 || monsterSp->getPositionX() > visibleSize.width + 40
-            || monsterSp->getPositionY() < -40 || monsterSp->getPositionY() > visibleSize.height + 40)
-        {
-			this->removeFromParent();
-        }
-		*/
 	}
 }

@@ -39,7 +39,7 @@ void MonsterController::createMonster(GameLayer * layer)
 
 		monster->setGameLayer(layer);
 
-		monster->setScale(0.4);
+		//monster->setScale(0.4);
     }
 }
 

@@ -32,9 +32,9 @@ public:
 	MainRole * m_taget;
 	
 	
-    DrawNode * skillDrawNode;
-	
-    DrawNode * skillProcessDrawNode;
+	Sprite * proBg;
+	Sprite * skill;
+	ProgressTimer * ptSkill;
 
 	void setGameLayer(GameLayer *layer);
 	void setTaget(MainRole *taget);
