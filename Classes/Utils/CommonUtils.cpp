@@ -221,7 +221,7 @@ Vector<SpriteFrame*> CommonUtils::getSpriteFrameByPlist(const char * name)
         orderName.push_back(spriteFrameName);
     }
     
-    int count = orderName.size();
+    long count = orderName.size();
     
     //冒泡法排序
     for(int i=0;i<count; i++)

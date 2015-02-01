@@ -5,17 +5,9 @@
 #include "MainRoleController.h"
 #include "MonsterController.h"
 
-#define JUMP_STEP_LEN (100)
-#define MOVE_STEP_LEN (2.9)
-#define MONSTER_STEP_LEN (2.1)
-
-#define JUMP_INTERVAL (0.3)
-#define JUMP_MAX_TIME (0.3)
+#define JUMP_TOUCH_MOVE_INTERVAL (0.3)
 #define MIN_MOVE_TOUCH_LEN (50)
 #define MAX_ATK_TOUCH_LEN (10)
-
-#define MAX_SCAN_LEN (150)
-//bool isPress = false;
 
 const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
 Scene* GameLayer::createScene()
@@ -122,7 +114,7 @@ void GameLayer::updateLoop(float delta)
     {
         jumpInterval += delta;
         
-        if(jumpInterval < JUMP_INTERVAL)
+        if(jumpInterval < JUMP_TOUCH_MOVE_INTERVAL)
         {
             isShortTime = true;
         }

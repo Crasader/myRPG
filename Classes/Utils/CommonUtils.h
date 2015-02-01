@@ -71,12 +71,6 @@ public:
     static __String* getNamebyNPCId(int NpcId);
     static void listItemRunMoveAction(Node * listItem,int idx);
     
-    /**
-     
-    static bool createDirectory(const char *path);
-    static string getFileMD5(const char *pszFile);
-    static bool UnzipFile(string fName,string outPath);
-    
     
     /**
      *从一个文件名里面获取最后的数字（如果有扩展名，则截止到“.”之前）

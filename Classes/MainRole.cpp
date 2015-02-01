@@ -4,12 +4,8 @@
 #define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2.9)
 #define JUMP_INTERVAL (0.3)
-#define JUMP_MAX_TIME (0.3)
-#define MIN_MOVE_TOUCH_LEN (50)
-#define MAX_ATK_TOUCH_LEN (10)
 
-// singleton stuff
-static MainRole *s_instance = nullptr;
+
 MainRole::MainRole()
 {
 	this->lv=1;
