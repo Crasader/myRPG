@@ -17,7 +17,7 @@ bool SettingLayer::init()
     {
         return false;
     }
-    
+    playMusic = true;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -36,7 +36,7 @@ bool SettingLayer::init()
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
     
-    auto item1 = MenuItemFont::create("开始", CC_CALLBACK_1(SettingLayer::onStart, this));
+    auto item1 = MenuItemFont::create("音乐：开", CC_CALLBACK_1(SettingLayer::onStart, this));
     auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(SettingLayer::onTest, this));
     auto item3 = MenuItemFont::create("返回", CC_CALLBACK_1(SettingLayer::onSetting, this));
     
@@ -55,7 +55,19 @@ bool SettingLayer::init()
 
 void SettingLayer::onStart(Ref* sender)
 {
-//    Director::getInstance()->replaceScene(GameLayer::createScene());
+    MenuItemFont * item1 = (MenuItemFont *)sender ;
+    
+    if(playMusic == true)
+    {
+        playMusic = false;
+        item1->setString("音乐：关");
+    }
+    else
+    {
+        playMusic = true;
+        item1->setString("音乐：开");
+    }
+    
 }
 
 void SettingLayer::onTest(Ref* sender)

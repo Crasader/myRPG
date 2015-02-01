@@ -13,6 +13,8 @@ public:
     
     virtual bool init();
     
+    bool playMusic;
+    
     Layer * m_bgLayer;
     Layer * m_menuLayer;
     
