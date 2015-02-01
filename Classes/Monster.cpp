@@ -24,6 +24,10 @@ Monster::Monster()
     this->isActive = false;
     this->atkTime = 0;
 	
+    this->proBg = NULL;
+    this->skill = NULL;
+    this->ptSkill = NULL;
+    
 	m_taget = NULL;
 	schedule(schedule_selector(Monster::updateLoop));
 }
@@ -100,6 +104,8 @@ void Monster::updateLoop(float delta)
 {
 	if(m_taget != NULL)
 	{
+        if(m_taget->isDead == false)
+        {
 		Sprite * monsterSp = this;
         Sprite * roleSp = m_taget;
         
@@ -111,7 +117,7 @@ void Monster::updateLoop(float delta)
         }
         bool skLenReady = (delt_x * delt_x + delt_y * delt_y) < this->skLen *  this->skLen;
            
-        if (this->isActive == true && m_taget->isDead == false) {
+        if (this->isActive == true) {
 			if(skLenReady == false && isAtk == false)
             {
                 Vec2 deltVec = CommonUtils::getVecByAngleAndLen(monsterSp->getPosition(), roleSp->getPosition(), MONSTER_STEP_LEN);
@@ -143,7 +149,6 @@ void Monster::updateLoop(float delta)
 
 				if(atkTime >= this->skIv)
 				{
-                    
                     Vec2 rolePos = m_taget->getPosition();
                     Vec2 deltPos = rolePos - skillPos;
                     float distance = rolePos.distance(skillPos);
@@ -155,14 +160,43 @@ void Monster::updateLoop(float delta)
 					isAtk =  false;
 					atkTime = 0;
                     
-                    
 					ptSkill->removeFromParent();
-					skill->removeFromParent();
-					proBg->removeFromParent();
-
+                    ptSkill = NULL;
+                    skill->removeFromParent();
+                    skill = NULL;
+                    proBg->removeFromParent();
+                    proBg = NULL;
                     
 				}
 			}
+        }
+        }
+        else
+        {
+            if(isAtk == true)
+            {
+            isAtk =  false;
+            atkTime = 0;
+            if(ptSkill != NULL)
+            {
+                //ptSkill->stopAllActions();
+                
+                ptSkill->removeFromParent();
+                ptSkill = NULL;
+            }
+            
+            if(skill != NULL)
+            {
+                skill->removeFromParent();
+                skill = NULL;
+            }
+            
+            if(proBg != NULL)
+            {
+                proBg->removeFromParent();
+                proBg = NULL;
+            }
+            }
         }
 	}
 }

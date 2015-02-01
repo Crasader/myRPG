@@ -52,6 +52,22 @@ bool GameLayer::init()
 	this->setColor(cocos2d::Color3B::GREEN);
 
 
+    //LabelTTF * roleHP = LabelTTF::create("中文exp:+1234567", "DPCarved", 40);
+    //m_uiLayer->addChild(roleHP);
+    
+    //////////hp
+    
+    TTFConfig config2("fonts/Marker Felt.ttf",30);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+    roleHP = Label::createWithTTF(config2,"HP:100",TextHAlignment::LEFT);//创建label，并向左对其
+    roleHP->setPosition(Vec2(40,visibleSize.height - 40));
+    roleHP->setAnchorPoint(Vec2::ANCHOR_MIDDLE);//设置锚点居中
+    m_uiLayer->addChild(roleHP);
+    
+    
+    //////////
+    
+    
+    
     isShortTime = false;
     jumpInterval = 0;
 	 auto listener1 = EventListenerTouchOneByOne::create();
@@ -135,6 +151,9 @@ void GameLayer::updateLoop(float delta)
             
         }
     }
+    
+    __String * hpValue = __String::createWithFormat("HP:%d",MainRoleController::getInstance()->role->hp);
+    roleHP->setString(hpValue->getCString());
     
     
 }

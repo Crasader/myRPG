@@ -23,6 +23,8 @@ public:
     
 	bool isPress;
     
+    Label * roleHP;
+    
     Vec2 pressPoint;
     Vec2 movePoint;
 	Vec2 releasePoint;
