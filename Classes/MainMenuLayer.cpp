@@ -1,6 +1,6 @@
 #include "MainMenuLayer.h"
-
 #include "GameLayer.h"
+#include "SettingLayer.h"
 
 Scene* MainMenuLayer::createScene()
 {
@@ -66,5 +66,5 @@ void MainMenuLayer::onTest(Ref* sender)
 
 void MainMenuLayer::onSetting(Ref* sender)
 {
-    
+    Director::getInstance()->replaceScene(SettingLayer::createScene());
 }

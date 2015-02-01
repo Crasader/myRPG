@@ -66,6 +66,9 @@
 		A5BD92871A7E6D5F00F79443 /* skProgress.png in Resources */ = {isa = PBXBuildFile; fileRef = A5BD92841A7E6D5F00F79443 /* skProgress.png */; };
 		A5BD92881A7E6D5F00F79443 /* skProgressBg.png in Resources */ = {isa = PBXBuildFile; fileRef = A5BD92851A7E6D5F00F79443 /* skProgressBg.png */; };
 		A5BD92921A7EBA0800F79443 /* MainMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */; };
+		A5BD929D1A7EE19A00F79443 /* FailLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD92971A7EE19A00F79443 /* FailLayer.cpp */; };
+		A5BD929E1A7EE19A00F79443 /* PauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD92991A7EE19A00F79443 /* PauseLayer.cpp */; };
+		A5BD929F1A7EE19A00F79443 /* SettingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD929B1A7EE19A00F79443 /* SettingLayer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -174,6 +177,12 @@
 		A5BD92851A7E6D5F00F79443 /* skProgressBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skProgressBg.png; sourceTree = "<group>"; };
 		A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuLayer.cpp; sourceTree = "<group>"; };
 		A5BD928C1A7EBA0800F79443 /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
+		A5BD92971A7EE19A00F79443 /* FailLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FailLayer.cpp; sourceTree = "<group>"; };
+		A5BD92981A7EE19A00F79443 /* FailLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FailLayer.h; sourceTree = "<group>"; };
+		A5BD92991A7EE19A00F79443 /* PauseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseLayer.cpp; sourceTree = "<group>"; };
+		A5BD929A1A7EE19A00F79443 /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
+		A5BD929B1A7EE19A00F79443 /* SettingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingLayer.cpp; sourceTree = "<group>"; };
+		A5BD929C1A7EE19A00F79443 /* SettingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingLayer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -314,6 +323,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A5BD92971A7EE19A00F79443 /* FailLayer.cpp */,
+				A5BD92981A7EE19A00F79443 /* FailLayer.h */,
+				A5BD92991A7EE19A00F79443 /* PauseLayer.cpp */,
+				A5BD929A1A7EE19A00F79443 /* PauseLayer.h */,
+				A5BD929B1A7EE19A00F79443 /* SettingLayer.cpp */,
+				A5BD929C1A7EE19A00F79443 /* SettingLayer.h */,
 				A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */,
 				A5BD928C1A7EBA0800F79443 /* MainMenuLayer.h */,
 				A5BD927A1A7E6D4100F79443 /* GameLayer.cpp */,
@@ -542,13 +557,16 @@
 				A571EDC71A7968B600E4704B /* CommonUtils.cpp in Sources */,
 				A5BD92811A7E6D4100F79443 /* MainRoleController.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				A5BD929F1A7EE19A00F79443 /* SettingLayer.cpp in Sources */,
 				A5B7274F1A7A947E00DF1B4F /* MainRole.cpp in Sources */,
 				A5B727521A7AB57D00DF1B4F /* Monster.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				A5BD92801A7E6D4100F79443 /* GameLayer.cpp in Sources */,
 				A5BD92921A7EBA0800F79443 /* MainMenuLayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				A5BD929E1A7EE19A00F79443 /* PauseLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				A5BD929D1A7EE19A00F79443 /* FailLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
