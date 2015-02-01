@@ -18,7 +18,7 @@ Monster::Monster()
     this->def=6;
     this->atk=3;
     this->chance=1;
-    this->skLen = 50;
+    this->skLen = 80;
 	this->skIv = 1.8;
 	this->isAtk = false;
     this->isActive = false;
