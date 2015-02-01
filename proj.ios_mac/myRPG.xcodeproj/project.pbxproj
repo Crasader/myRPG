@@ -14,8 +14,6 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
-		46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
-		46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -61,6 +59,13 @@
 		A5B7275C1A7AB84400DF1B4F /* m2.png in Resources */ = {isa = PBXBuildFile; fileRef = A5B727571A7AB84400DF1B4F /* m2.png */; };
 		A5B7275D1A7AB84400DF1B4F /* m3.png in Resources */ = {isa = PBXBuildFile; fileRef = A5B727581A7AB84400DF1B4F /* m3.png */; };
 		A5B7275E1A7AB84400DF1B4F /* m4.png in Resources */ = {isa = PBXBuildFile; fileRef = A5B727591A7AB84400DF1B4F /* m4.png */; };
+		A5BD92801A7E6D4100F79443 /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD927A1A7E6D4100F79443 /* GameLayer.cpp */; };
+		A5BD92811A7E6D4100F79443 /* MainRoleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD927C1A7E6D4100F79443 /* MainRoleController.cpp */; };
+		A5BD92821A7E6D4100F79443 /* MonsterController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD927E1A7E6D4100F79443 /* MonsterController.cpp */; };
+		A5BD92861A7E6D5F00F79443 /* skill.png in Resources */ = {isa = PBXBuildFile; fileRef = A5BD92831A7E6D5F00F79443 /* skill.png */; };
+		A5BD92871A7E6D5F00F79443 /* skProgress.png in Resources */ = {isa = PBXBuildFile; fileRef = A5BD92841A7E6D5F00F79443 /* skProgress.png */; };
+		A5BD92881A7E6D5F00F79443 /* skProgressBg.png in Resources */ = {isa = PBXBuildFile; fileRef = A5BD92851A7E6D5F00F79443 /* skProgressBg.png */; };
+		A5BD92921A7EBA0800F79443 /* MainMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -110,8 +115,6 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		46880B8719C43A87006E1F66 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -160,6 +163,17 @@
 		A5B727571A7AB84400DF1B4F /* m2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m2.png; sourceTree = "<group>"; };
 		A5B727581A7AB84400DF1B4F /* m3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m3.png; sourceTree = "<group>"; };
 		A5B727591A7AB84400DF1B4F /* m4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m4.png; sourceTree = "<group>"; };
+		A5BD927A1A7E6D4100F79443 /* GameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayer.cpp; sourceTree = "<group>"; };
+		A5BD927B1A7E6D4100F79443 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
+		A5BD927C1A7E6D4100F79443 /* MainRoleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainRoleController.cpp; sourceTree = "<group>"; };
+		A5BD927D1A7E6D4100F79443 /* MainRoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainRoleController.h; sourceTree = "<group>"; };
+		A5BD927E1A7E6D4100F79443 /* MonsterController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterController.cpp; sourceTree = "<group>"; };
+		A5BD927F1A7E6D4100F79443 /* MonsterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterController.h; sourceTree = "<group>"; };
+		A5BD92831A7E6D5F00F79443 /* skill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skill.png; sourceTree = "<group>"; };
+		A5BD92841A7E6D5F00F79443 /* skProgress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skProgress.png; sourceTree = "<group>"; };
+		A5BD92851A7E6D5F00F79443 /* skProgressBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skProgressBg.png; sourceTree = "<group>"; };
+		A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuLayer.cpp; sourceTree = "<group>"; };
+		A5BD928C1A7EBA0800F79443 /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -281,6 +295,9 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A5BD92831A7E6D5F00F79443 /* skill.png */,
+				A5BD92841A7E6D5F00F79443 /* skProgress.png */,
+				A5BD92851A7E6D5F00F79443 /* skProgressBg.png */,
 				A5B727551A7AB84400DF1B4F /* bg1.jpg */,
 				A5B727561A7AB84400DF1B4F /* bg2.jpg */,
 				A5B727571A7AB84400DF1B4F /* m2.png */,
@@ -297,6 +314,14 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A5BD928B1A7EBA0800F79443 /* MainMenuLayer.cpp */,
+				A5BD928C1A7EBA0800F79443 /* MainMenuLayer.h */,
+				A5BD927A1A7E6D4100F79443 /* GameLayer.cpp */,
+				A5BD927B1A7E6D4100F79443 /* GameLayer.h */,
+				A5BD927C1A7E6D4100F79443 /* MainRoleController.cpp */,
+				A5BD927D1A7E6D4100F79443 /* MainRoleController.h */,
+				A5BD927E1A7E6D4100F79443 /* MonsterController.cpp */,
+				A5BD927F1A7E6D4100F79443 /* MonsterController.h */,
 				A5B727501A7AB57D00DF1B4F /* Monster.cpp */,
 				A5B727511A7AB57D00DF1B4F /* Monster.h */,
 				A5B7274D1A7A947E00DF1B4F /* MainRole.cpp */,
@@ -304,8 +329,6 @@
 				A571EDC41A7968B600E4704B /* Utils */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
-				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -468,6 +491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5B7275E1A7AB84400DF1B4F /* m4.png in Resources */,
+				A5BD92881A7E6D5F00F79443 /* skProgressBg.png in Resources */,
 				A5B7275C1A7AB84400DF1B4F /* m2.png in Resources */,
 				A571EDC31A795B7B00E4704B /* f1.png in Resources */,
 				A5B727541A7AB79700DF1B4F /* m1.png in Resources */,
@@ -475,6 +499,7 @@
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				A5B7275A1A7AB84400DF1B4F /* bg1.jpg in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
+				A5BD92871A7E6D5F00F79443 /* skProgress.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -486,6 +511,7 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				A5BD92861A7E6D5F00F79443 /* skill.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				A5B7275D1A7AB84400DF1B4F /* m3.png in Resources */,
@@ -512,12 +538,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5BD92821A7E6D4100F79443 /* MonsterController.cpp in Sources */,
 				A571EDC71A7968B600E4704B /* CommonUtils.cpp in Sources */,
+				A5BD92811A7E6D4100F79443 /* MainRoleController.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				A5B7274F1A7A947E00DF1B4F /* MainRole.cpp in Sources */,
-				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				A5B727521A7AB57D00DF1B4F /* Monster.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				A5BD92801A7E6D4100F79443 /* GameLayer.cpp in Sources */,
+				A5BD92921A7EBA0800F79443 /* MainMenuLayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
@@ -529,7 +558,6 @@
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
-				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
