@@ -1,6 +1,6 @@
 #include "FailLayer.h"
 #include "GameLayer.h"
-#include "FailLayer.h"
+#include "MainMenuLayer.h"
 
 Scene* FailLayer::createScene()
 {
@@ -34,12 +34,23 @@ bool FailLayer::init()
     
     m_bgLayer->addChild(bgSp);
     
+    
+    //////////
+    
+    TTFConfig config2("fonts/汉仪细行楷简.ttf",60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+    auto failString = Label::createWithTTF(config2,"您被怪物吃掉了！",TextHAlignment::LEFT);//创建label，并向左对其
+    failString->setPosition(Vec2(visibleSize.width / 2,visibleSize.height / 2 +  200));
+    failString->setAnchorPoint(Vec2::ANCHOR_MIDDLE);//设置锚点居中
+    m_bgLayer->addChild(failString);
+    failString->enableShadow(Color4B::RED,Size(2,-2),0);
+    //////////
+    
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
     
-    auto item1 = MenuItemFont::create("开始", CC_CALLBACK_1(FailLayer::onStart, this));
+    auto item1 = MenuItemFont::create("重新开始", CC_CALLBACK_1(FailLayer::onStart, this));
     auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(FailLayer::onTest, this));
-    auto item3 = MenuItemFont::create("设置", CC_CALLBACK_1(FailLayer::onSetting, this));
+    auto item3 = MenuItemFont::create("主界面", CC_CALLBACK_1(FailLayer::onSetting, this));
     
     auto menu = Menu::create( item1, item2, item3,  nullptr);
     menu->alignItemsVertically();
@@ -66,5 +77,5 @@ void FailLayer::onTest(Ref* sender)
 
 void FailLayer::onSetting(Ref* sender)
 {
-    Director::getInstance()->replaceScene(FailLayer::createScene());
+    Director::getInstance()->replaceScene(MainMenuLayer::createScene());
 }

@@ -33,6 +33,17 @@ bool SettingLayer::init()
     
     m_bgLayer->addChild(bgSp);
     
+    //////////
+    
+    TTFConfig config2("fonts/汉仪细行楷简.ttf",60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+    auto failString = Label::createWithTTF(config2,"设置",TextHAlignment::LEFT);//创建label，并向左对其
+    failString->setPosition(Vec2(visibleSize.width / 2,visibleSize.height / 2 +  200));
+    failString->setAnchorPoint(Vec2::ANCHOR_MIDDLE);//设置锚点居中
+    m_bgLayer->addChild(failString);
+    failString->enableShadow(Color4B::RED,Size(2,-2),0);
+    //////////
+    
+    
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
     

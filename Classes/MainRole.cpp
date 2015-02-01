@@ -1,5 +1,6 @@
 #include "MainRole.h"
 #include "Utils/CommonUtils.h"
+#include "FailLayer.h"
 
 #define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2.9)
@@ -77,9 +78,12 @@ void MainRole::attack()
 
 void MainRole::updateLoop(float delta)
 {
-    if(this->hp <= 0)
+    if(this->hp <= 0 && this->isDead == false)
     {
         this->isDead = true;
         this->setColor(Color3B(128, 128, 128));
+        
+        Director::getInstance()->replaceScene(FailLayer::createScene());
+        
     }
 }
