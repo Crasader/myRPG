@@ -17,7 +17,6 @@ MainRole::MainRole()
     this->def=6;
     this->atk=3;
     this->chance=1;
-    
 }
 
 MainRole::~MainRole()
@@ -35,6 +34,12 @@ MainRole* MainRole::create(const std::string& filename)
     }
     CC_SAFE_DELETE(sprite);
     return nullptr;
+}
+
+void MainRole::setGameLayer(GameLayer *layer)
+{
+	m_gameLayer = layer;
+	m_gameLayer->m_roleLayer->addChild(this);
 }
 
 void MainRole::jump(Vec2 from ,Vec2 to)

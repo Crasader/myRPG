@@ -1,4 +1,4 @@
-#include "HelloWorldScene.h"
+#include "GameLayer.h"
 #include "Utils/CommonUtils.h"
 #include "MainRole.h"
 #include "MainRole.h"
@@ -18,17 +18,17 @@
 //bool isPress = false;
 
 const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
-Scene* HelloWorld::createScene()
+Scene* GameLayer::createScene()
 {
     auto scene = Scene::create();
-    auto layer = HelloWorld::create();
+    auto layer = GameLayer::create();
 	layer->setColor(cocos2d::Color3B::GREEN);
     scene->addChild(layer);
 
     return scene;
 }
 
-bool HelloWorld::init()
+bool GameLayer::init()
 {
     if ( !Layer::init() )
     {
@@ -38,16 +38,25 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    Layer * bg = Layer::create();
-    int bgImgIdx = CommonUtils::RandAmongMinMax(0, 1);
+	m_bgLayer = Layer::create();
+	m_skillLayer = Layer::create();
+	m_roleLayer = Layer::create();
+	m_uiLayer = Layer::create();
+	m_touchLayer = Layer::create();
+
+	this->addChild(m_bgLayer,1);
+	this->addChild(m_skillLayer,2);
+	this->addChild(m_roleLayer,3);
+	this->addChild(m_touchLayer,4);
+	this->addChild(m_uiLayer,1000);
+
+    int bgImgIdx = CommonUtils::RandAmongMinMax(0, 2);
     Sprite * bgSp = Sprite::create(bgImage[bgImgIdx]);
     bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     bgSp->setScale(visibleSize.width / bgSp->getContentSize().width, visibleSize.height / bgSp->getContentSize().height);
     
-//    bg->setColor(Color3B::BLUE);
-    
-    bg->addChild(bgSp);
-    this->addChild(bg);
+    m_bgLayer->addChild(bgSp);
+
 	this->setColor(cocos2d::Color3B::GREEN);
 
 
@@ -91,9 +100,9 @@ bool HelloWorld::init()
 		isPress = false;
     };    
       
-      _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,this);  
+      _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,m_touchLayer);  
 
-    schedule(schedule_selector(HelloWorld::updateLoop));
+    schedule(schedule_selector(GameLayer::updateLoop));
     
 	
 	MainRoleController::getInstance()->createMainRole(this);
@@ -107,7 +116,7 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::updateLoop(float delta)
+void GameLayer::updateLoop(float delta)
 {
     if(isPress)
     {
@@ -138,7 +147,7 @@ void HelloWorld::updateLoop(float delta)
     
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void GameLayer::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -152,7 +161,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-long HelloWorld::millisecondNow()  
+long GameLayer::millisecondNow()  
 { 
 struct timeval tv; 
   gettimeofday(&tv,NULL);   

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "2d/CCNode.h"
 #include "MainRole.h"
-
+#include "GameLayer.h"
 
 USING_NS_CC;
 
@@ -23,11 +23,20 @@ public:
     int lv;
     int skID;
     int skLen;//技能释放长度
-    int skIv;//技能吟唱时间
-    bool skStart;
+    float skIv;//技能吟唱时间
+    bool isAtk;
+	float atkTime;
     
     bool isActive;
+	GameLayer * m_gameLayer;
 	MainRole * m_taget;
+	
+	
+    DrawNode * skillDrawNode;
+	
+    DrawNode * skillProcessDrawNode;
+
+	void setGameLayer(GameLayer *layer);
 	void setTaget(MainRole *taget);
 	void updateLoop(float delta);
 };

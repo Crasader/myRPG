@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "MainRole.h"
+#include "GameLayer.h"
+
 USING_NS_CC;
 class MainRoleController
 {
@@ -13,7 +15,7 @@ public:
 	
     static MainRoleController* getInstance();
 
-	void createMainRole(Node * layer);
+	void createMainRole(GameLayer * layer);
 
 };
 

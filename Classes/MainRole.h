@@ -2,6 +2,7 @@
 #define __MAIN_ROLE_H__
 
 #include "cocos2d.h"
+#include "GameLayer.h"
 
 USING_NS_CC;
 class MainRole : public Sprite
@@ -22,6 +23,9 @@ public:
 	void move(Vec2 from ,Vec2 to);
 	void attack();
 	
+	GameLayer * m_gameLayer;
+	
+	void setGameLayer(GameLayer *layer);
 };
 
 #endif // __MAIN_ROLE_H__

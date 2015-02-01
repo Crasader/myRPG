@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Monster.h"
-
+#include "GameLayer.h"
 
 USING_NS_CC;
 
@@ -16,7 +16,7 @@ public:
     static MonsterController* getInstance();
 
 	Vector<Monster *> monsters;
-	void createMonster(Node * layer);
+	void createMonster(GameLayer * layer);
 	
 	void setTaget(MainRole * role);
 };
