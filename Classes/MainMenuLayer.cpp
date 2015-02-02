@@ -64,5 +64,5 @@ void MainMenuLayer::onTest(Ref* sender)
 
 void MainMenuLayer::onSetting(Ref* sender)
 {
-    Director::getInstance()->replaceScene(SettingLayer::createScene());
+    Director::getInstance()->pushScene(SettingLayer::createScene());
 }

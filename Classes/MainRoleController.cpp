@@ -29,3 +29,13 @@ void MainRoleController::createMainRole(GameLayer * layer)
 	this->role = (MainRole *)MainRole::create("f1.png");
 	this->role->setGameLayer(layer);
 }
+
+void MainRoleController::pause()
+{
+    this->role->pause();
+}
+
+void MainRoleController::resume()
+{
+    this->role->resume();
+}

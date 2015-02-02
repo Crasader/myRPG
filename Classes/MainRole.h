@@ -24,11 +24,14 @@ public:
 	void attack();
 	
     bool isDead;
+//    bool isPause;
 	GameLayer * m_gameLayer;
 	
 	void setGameLayer(GameLayer *layer);
     
     void updateLoop(float delta);
+//    void pause();
+//    void resume();
 };
 
 #endif // __MAIN_ROLE_H__

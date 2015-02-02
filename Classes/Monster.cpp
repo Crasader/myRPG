@@ -200,3 +200,12 @@ void Monster::updateLoop(float delta)
         }
 	}
 }
+
+//void Monster::pause()
+//{
+//    isPause = true;
+//}
+//void Monster::resume()
+//{
+//    isPause = false;
+//}

@@ -85,5 +85,5 @@ void SettingLayer::onTest(Ref* sender)
 
 void SettingLayer::onSetting(Ref* sender)
 {
-    Director::getInstance()->replaceScene(MainMenuLayer::createScene());
+    Director::getInstance()->popScene();
 }

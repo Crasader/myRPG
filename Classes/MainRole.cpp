@@ -15,6 +15,8 @@ MainRole::MainRole()
     this->atk=3;
     this->chance=1;
     this->isDead = false;
+//    this->isPause = false;
+    
     schedule(schedule_selector(MainRole::updateLoop));
 }
 
@@ -87,3 +89,13 @@ void MainRole::updateLoop(float delta)
         
     }
 }
+
+//void MainRole::pause()
+//{
+//    isPause = true;
+//}
+//
+//void MainRole::resume()
+//{
+//    isPause = false;
+//}

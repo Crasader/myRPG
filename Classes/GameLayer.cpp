@@ -4,6 +4,7 @@
 #include "MainRole.h"
 #include "MainRoleController.h"
 #include "MonsterController.h"
+#include "PauseLayer.h"
 
 #define JUMP_TOUCH_MOVE_INTERVAL (0.3)
 #define MIN_MOVE_TOUCH_LEN (50)
@@ -140,17 +141,20 @@ bool GameLayer::init()
 
 void GameLayer::onPause(Ref *pSender)
 {
-    if(isPause == false)
+//    if(isPause == false)
     {
-        //MonsterController::getInstance()->pause();
-        //MainRoleController::getInstance()->pause();
-        isPause = true;
+        
+        Director::getInstance()->pushScene(PauseLayer::createScene());
+//        MonsterController::getInstance()->pause();
+//        MainRoleController::getInstance()->pause();
+//        isPause = true;
     }
-    else
+//    else
     {
-       // MonsterController::getInstance()->resume();
-        //MainRoleController::getInstance()->resume();
-        isPause = false;
+        //Director::getInstance()->popScene();
+//        MonsterController::getInstance()->resume();
+//        MainRoleController::getInstance()->resume();
+//        isPause = false;
     }
 }
 

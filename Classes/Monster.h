@@ -28,6 +28,7 @@ public:
 	float atkTime;
     
     bool isActive;
+//    bool isPause;
 	GameLayer * m_gameLayer;
 	MainRole * m_taget;
 	
@@ -40,6 +41,8 @@ public:
 	void setGameLayer(GameLayer *layer);
 	void setTaget(MainRole *taget);
 	void updateLoop(float delta);
+//    void pause();
+//    void resume();
 };
 
 #endif // __MONSTER_H__

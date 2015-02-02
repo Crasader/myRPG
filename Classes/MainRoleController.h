@@ -16,7 +16,9 @@ public:
     static MainRoleController* getInstance();
 
 	void createMainRole(GameLayer * layer);
-
+    void pause();
+    
+    void resume();
 };
 
 #endif // __MAIN_ROLE_CONTROLLER_H__

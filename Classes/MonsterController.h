@@ -19,6 +19,8 @@ public:
 	void createMonster(GameLayer * layer);
 	
 	void setTaget(MainRole * role);
+    void pause();
+    void resume();
 };
 
 #endif // __MONSTER_CONTROLLER_H__
