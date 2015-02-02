@@ -10,6 +10,7 @@
 #define MAX_ATK_TOUCH_LEN (10)
 
 const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
+bool GameLayer::isPause = false;
 Scene* GameLayer::createScene()
 {
     auto scene = Scene::create();
@@ -28,6 +29,8 @@ bool GameLayer::init()
     }
     isPress = false;
     touchMoveShow = NULL;
+    isPause = false;
+    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -54,15 +57,14 @@ bool GameLayer::init()
 
     
     ////////////touch move show
-    
     touchMoveShow = Sprite::create("slider_track.png");
     touchMoveShow->setVisible(false);
     touchMoveShow->setOpacity(100);
     touchMoveShow->setAnchorPoint(Vec2(0,0.5));
     m_touchLayer->addChild(touchMoveShow);
     //////////////
-    //////////hp
     
+    //////////hp
     TTFConfig config2("fonts/汉仪细行楷简.ttf",60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
     roleHP = Label::createWithTTF(config2,"生命:100",TextHAlignment::LEFT);//创建label，并向左对其
     roleHP->setPosition(Vec2(40,visibleSize.height - 40));
@@ -71,7 +73,13 @@ bool GameLayer::init()
     roleHP->enableShadow(Color4B::RED,Size(2,-2),0);
     //////////
     
+    ////////////touch move show
     
+    Button *pauseBtn = Button::create("btn_pause.png","btn_pause_p.png");
+    pauseBtn->setPosition(Vec2(visibleSize.width - 40,visibleSize.height - 40));
+    pauseBtn->addClickEventListener(GameLayer::onPause);
+    m_uiLayer->addChild(pauseBtn);
+    //////////////
     
     isShortTime = false;
     jumpInterval = 0;
@@ -128,6 +136,22 @@ bool GameLayer::init()
 
     
     return true;
+}
+
+void GameLayer::onPause(Ref *pSender)
+{
+    if(isPause == false)
+    {
+        //MonsterController::getInstance()->pause();
+        //MainRoleController::getInstance()->pause();
+        isPause = true;
+    }
+    else
+    {
+       // MonsterController::getInstance()->resume();
+        //MainRoleController::getInstance()->resume();
+        isPause = false;
+    }
 }
 
 void GameLayer::updateLoop(float delta)

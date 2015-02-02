@@ -2,6 +2,7 @@
 #define __GAME_LAYER_H__
 
 #include "cocos2d.h"
+#include "UIWidget.h"
 
 USING_NS_CC;
 class GameLayer : public cocos2d::Layer
@@ -22,9 +23,10 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     
+    static void onPause(Ref *pSender);
     Sprite * touchMoveShow;
 	bool isPress;
-    
+    static bool isPause;
     Label * roleHP;
     
     Vec2 pressPoint;
