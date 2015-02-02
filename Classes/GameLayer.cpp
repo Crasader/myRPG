@@ -27,6 +27,7 @@ bool GameLayer::init()
         return false;
     }
     isPress = false;
+    touchMoveShow = NULL;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -51,6 +52,15 @@ bool GameLayer::init()
 
 	this->setColor(cocos2d::Color3B::GREEN);
 
+    
+    ////////////touch move show
+    
+    touchMoveShow = Sprite::create("slider_track.png");
+    touchMoveShow->setVisible(false);
+    touchMoveShow->setOpacity(100);
+    touchMoveShow->setAnchorPoint(Vec2(0,0.5));
+    m_touchLayer->addChild(touchMoveShow);
+    //////////////
     //////////hp
     
     TTFConfig config2("fonts/汉仪细行楷简.ttf",60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
@@ -99,6 +109,7 @@ bool GameLayer::init()
 
             }
 		}
+        touchMoveShow->setVisible(false);
 
 		isPress = false;
     };    
@@ -142,6 +153,16 @@ void GameLayer::updateLoop(float delta)
             {
                 MainRoleController::getInstance()->role->move(pressPoint,movePoint);
 				
+                
+                touchMoveShow->setVisible(true);
+                touchMoveShow->setScale(sqrtf(delt_x * delt_x + delt_y * delt_y) / touchMoveShow->getContentSize().width , 1);
+                touchMoveShow->setPosition(pressPoint);
+                
+                float angle = CommonUtils::getAngleBy2Point(pressPoint,movePoint);
+                angle = -angle;
+                //解析几何里面，旋转是逆时针，而 setRotation 逆时针旋转，需要是负整数
+                touchMoveShow->setRotation(angle);
+                
             }
             
         }

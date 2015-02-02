@@ -21,6 +21,8 @@ public:
 
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    
+    Sprite * touchMoveShow;
 	bool isPress;
     
     Label * roleHP;

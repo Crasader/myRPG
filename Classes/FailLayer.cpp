@@ -47,7 +47,7 @@ bool FailLayer::init()
     
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
-    
+    MenuItemFont::setFontSize(80);
     auto item1 = MenuItemFont::create("重新开始", CC_CALLBACK_1(FailLayer::onStart, this));
     auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(FailLayer::onTest, this));
     auto item3 = MenuItemFont::create("主界面", CC_CALLBACK_1(FailLayer::onSetting, this));
@@ -57,8 +57,6 @@ bool FailLayer::init()
     
     menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
     
-    menu->setScale(0);
-    menu->runAction(ScaleTo::create(1,1));
     
     m_menuLayer->addChild(menu);
     

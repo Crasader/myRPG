@@ -46,7 +46,7 @@ bool SettingLayer::init()
     
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
-    
+    MenuItemFont::setFontSize(80);
     auto item1 = MenuItemFont::create("音乐：开", CC_CALLBACK_1(SettingLayer::onStart, this));
     auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(SettingLayer::onTest, this));
     auto item3 = MenuItemFont::create("返回", CC_CALLBACK_1(SettingLayer::onSetting, this));
@@ -55,9 +55,6 @@ bool SettingLayer::init()
     menu->alignItemsVertically();
     
     menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
-    
-    menu->setScale(0);
-    menu->runAction(ScaleTo::create(1,1));
     
     m_menuLayer->addChild(menu);
     

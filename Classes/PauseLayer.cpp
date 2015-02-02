@@ -36,7 +36,7 @@ bool PauseLayer::init()
     
     ///////
     MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
-    
+    MenuItemFont::setFontSize(80);
     auto item1 = MenuItemFont::create("开始", CC_CALLBACK_1(PauseLayer::onStart, this));
     auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(PauseLayer::onTest, this));
     auto item3 = MenuItemFont::create("设置", CC_CALLBACK_1(PauseLayer::onSetting, this));
@@ -46,8 +46,6 @@ bool PauseLayer::init()
     
     menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
     
-    menu->setScale(0);
-    menu->runAction(ScaleTo::create(1,1));
     
     m_menuLayer->addChild(menu);
     

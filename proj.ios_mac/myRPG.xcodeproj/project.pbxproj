@@ -51,6 +51,7 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		A571EDC31A795B7B00E4704B /* f1.png in Resources */ = {isa = PBXBuildFile; fileRef = A571EDC21A795B7B00E4704B /* f1.png */; };
 		A571EDC71A7968B600E4704B /* CommonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A571EDC51A7968B600E4704B /* CommonUtils.cpp */; };
+		A575EAB21A801B3100F867D5 /* slider_track.png in Resources */ = {isa = PBXBuildFile; fileRef = A575EAB11A801B3100F867D5 /* slider_track.png */; };
 		A5B7274F1A7A947E00DF1B4F /* MainRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5B7274D1A7A947E00DF1B4F /* MainRole.cpp */; };
 		A5B727521A7AB57D00DF1B4F /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5B727501A7AB57D00DF1B4F /* Monster.cpp */; };
 		A5B727541A7AB79700DF1B4F /* m1.png in Resources */ = {isa = PBXBuildFile; fileRef = A5B727531A7AB79700DF1B4F /* m1.png */; };
@@ -156,6 +157,7 @@
 		A571EDC21A795B7B00E4704B /* f1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = f1.png; sourceTree = "<group>"; };
 		A571EDC51A7968B600E4704B /* CommonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommonUtils.cpp; sourceTree = "<group>"; };
 		A571EDC61A7968B600E4704B /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
+		A575EAB11A801B3100F867D5 /* slider_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slider_track.png; sourceTree = "<group>"; };
 		A5B7274D1A7A947E00DF1B4F /* MainRole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainRole.cpp; sourceTree = "<group>"; };
 		A5B7274E1A7A947E00DF1B4F /* MainRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainRole.h; sourceTree = "<group>"; };
 		A5B727501A7AB57D00DF1B4F /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A575EAB11A801B3100F867D5 /* slider_track.png */,
 				A5BD92831A7E6D5F00F79443 /* skill.png */,
 				A5BD92841A7E6D5F00F79443 /* skProgress.png */,
 				A5BD92851A7E6D5F00F79443 /* skProgressBg.png */,
@@ -533,6 +536,7 @@
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
+				A575EAB21A801B3100F867D5 /* slider_track.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

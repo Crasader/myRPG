@@ -37,6 +37,35 @@ long long CommonUtils::currentTimeMicroSeconds()
     return ret;
 }
 
+float CommonUtils::getAngleBy2Point(Vec2 start_pos,Vec2 pos)
+{
+    double len_y = pos.y - start_pos.y;
+    double len_x = pos.x - start_pos.x;
+    
+    double tan_yx = tan_yx = abs(len_y)/abs(len_x);
+    float angle = 0;
+    
+    float temp = atan(tan_yx)*180/M_PI;
+    
+    if(len_y > 0 && len_x < 0) {// 第二象限
+        
+        angle = 180 - temp ;
+        
+    } else if (len_y > 0 && len_x > 0) { // 第一象限
+        
+        angle = temp;
+        
+    } else if(len_y < 0 && len_x < 0) {// 第三象限
+        
+        angle = 180  +  temp ;
+        
+    } else if(len_y < 0 && len_x > 0) {// 第四象限
+        
+        angle = 360 - temp ;
+        
+    }
+    return angle;
+}
 
 float CommonUtils::getPositionDivByLen(float parentLen,float childLen,int childCount,int childIndex)
 {
