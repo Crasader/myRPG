@@ -1,6 +1,7 @@
 #include "MainRole.h"
 #include "Utils/CommonUtils.h"
 #include "FailLayer.h"
+#include "GameConst.h"
 
 #define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2.9)

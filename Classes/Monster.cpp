@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "Utils/CommonUtils.h"
+#include "GameConst.h"
 
 #define MONSTER_STEP_LEN (1.8)
 

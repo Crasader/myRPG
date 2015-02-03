@@ -5,6 +5,7 @@
 #include "MainRoleController.h"
 #include "MonsterController.h"
 #include "PauseLayer.h"
+#include "GameConst.h"
 
 #define JUMP_TOUCH_MOVE_INTERVAL (0.3)
 #define MIN_MOVE_TOUCH_LEN (50)
@@ -66,7 +67,7 @@ bool GameLayer::init()
     //////////////
     
     //////////hp
-    TTFConfig config2("fonts/hyxxkj.ttf",60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+    TTFConfig config2(FONT_NAME,60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
     roleHP = Label::createWithTTF(config2,"生命:100",TextHAlignment::LEFT);//创建label，并向左对其
     roleHP->setPosition(Vec2(40,visibleSize.height - 40));
     roleHP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中

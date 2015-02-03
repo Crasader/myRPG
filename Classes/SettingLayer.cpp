@@ -1,5 +1,6 @@
 #include "SettingLayer.h"
 #include "MainMenuLayer.h"
+#include "GameConst.h"
 
 Scene* SettingLayer::createScene()
 {
@@ -34,7 +35,7 @@ bool SettingLayer::init()
     m_bgLayer->addChild(bgSp);
     
     {
-        TTFConfig config1("fonts/hyxxkj.ttf",120);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        TTFConfig config1(FONT_NAME,120);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
         auto failString = Label::createWithTTF(config1,"设置",TextHAlignment::LEFT);//创建label，并向左对其
         failString->setPosition(Vec2(visibleSize.width / 2,visibleSize.height - 200));
         failString->setAnchorPoint(Vec2::ANCHOR_MIDDLE);//设置锚点居中
@@ -43,7 +44,7 @@ bool SettingLayer::init()
     }
     
     {
-        TTFConfig config2("fonts/hyxxkj.ttf",80);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        TTFConfig config2(FONT_NAME,80);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
         
         auto label1 = Label::createWithTTF(config2,"音乐：开");
         label1->enableShadow(Color4B::GREEN,Size(2,-2),0);
