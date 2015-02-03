@@ -16,6 +16,7 @@ MainRole::MainRole()
     this->atk=3;
     this->chance=1;
     this->isDead = false;
+    this->m_target = NULL;
 //    this->isPause = false;
     
     schedule(schedule_selector(MainRole::updateLoop));
@@ -89,6 +90,21 @@ void MainRole::updateLoop(float delta)
         Director::getInstance()->replaceScene(FailLayer::createScene());
         
     }
+}
+
+void MainRole::setTarget(Monster * monster)
+{
+    if(this->m_target != monster)
+    {
+        if(this->m_target != NULL)
+        {
+            //颜色设置回去
+            this->m_target->setColor(Color3B(255,255,255));
+        }
+        this->m_target = monster;
+        this->m_target->setColor(Color3B::GREEN);
+    }
+    
 }
 
 //void MainRole::pause()

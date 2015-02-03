@@ -51,6 +51,7 @@ void MonsterController::setTaget(MainRole * role)
 	}
 }
 
+
 void MonsterController::pause()
 {
     for(int i=0;i<monsters.size();i++)
@@ -58,6 +59,7 @@ void MonsterController::pause()
         monsters.at(i)->pause();
     }
 }
+
 void MonsterController::resume()
 {
     for(int i=0;i<monsters.size();i++)

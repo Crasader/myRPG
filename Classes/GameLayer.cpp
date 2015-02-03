@@ -13,6 +13,7 @@
 
 const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
 bool GameLayer::isPause = false;
+
 Scene* GameLayer::createScene()
 {
     auto scene = Scene::create();
@@ -60,7 +61,6 @@ bool GameLayer::init()
 
 	this->setColor(cocos2d::Color3B::GREEN);
 
-    
     //touch move show
     {
         touchMoveShow = Sprite::create("slider_track.png");
@@ -88,7 +88,6 @@ bool GameLayer::init()
         m_uiLayer->addChild(pauseBtn);
         
     }
-    //////////////
     
 	 auto listener1 = EventListenerTouchOneByOne::create();
     listener1->setSwallowTouches(true);
@@ -198,6 +197,10 @@ void GameLayer::updateLoop(float delta)
                 
             }
         }
+    }
+    //检测主角攻击目标是哪个怪物，寻找最近的一个
+    {
+        MainRoleController::getInstance()->checkRoleTarget();
     }
     
     __String * hpValue = __String::createWithFormat("生命:%d",MainRoleController::getInstance()->role->hp);

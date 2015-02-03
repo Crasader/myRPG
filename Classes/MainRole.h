@@ -3,8 +3,10 @@
 
 #include "cocos2d.h"
 #include "GameLayer.h"
+#include "Monster.h"
 
 USING_NS_CC;
+class Monster;
 class MainRole : public Sprite
 {
 public:
@@ -26,9 +28,11 @@ public:
     bool isDead;
 //    bool isPause;
 	GameLayer * m_gameLayer;
-	
+    Monster * m_target;
+    
 	void setGameLayer(GameLayer *layer);
     
+    void setTarget(Monster * monster);
     void updateLoop(float delta);
 //    void pause();
 //    void resume();
