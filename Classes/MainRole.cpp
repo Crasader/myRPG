@@ -14,7 +14,7 @@ MainRole::MainRole()
 	this->lv=1;
     this->hp=100;
     this->def=6;
-    this->atk=3;
+    this->atk=25;
     this->chance=1;
     this->atkLen = ATTACK_LEN;
     this->isDead = false;
@@ -79,7 +79,7 @@ void MainRole::attack()
         return;
     }
     
-    if(this->m_target != NULL)
+    if(this->m_target != NULL && m_target->isDead == false)
     {
         Vec2 monsterPos = m_target->getPosition();
         
@@ -87,12 +87,18 @@ void MainRole::attack()
         float distance1 = rolePos.distance(monsterPos);
         if(distance1 < atkLen)
         {
-            m_target->hp -= 10;
+            m_target->hp -= atk;
             if(m_target->hp <= 0)
             {
+                m_target->hp = 0;
                 m_target->isDead = true;
+                m_gameLayer->monsterHP->setVisible(false);
 //                auto fadeout = CCFadeOut::create(1.5);
 //                m_target->runAction(fadeout);
+            }
+            else
+            {
+                m_gameLayer->monsterHP->setVisible(true);
             }
             
             {

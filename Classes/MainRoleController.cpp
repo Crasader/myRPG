@@ -43,6 +43,10 @@ void MainRoleController::checkRoleTarget()
     Vector<Monster *> monsters = MonsterController::getInstance()->monsters;
     for(int i=0;i<monsters.size();i++)
     {
+        if(monsters.at(i)->isDead == true)
+        {
+            continue;
+        }
         Vec2 monsterPos = monsters.at(i)->getPosition();
         
         Vec2 rolePos = MainRoleController::getInstance()->role->getPosition();
