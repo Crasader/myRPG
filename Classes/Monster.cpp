@@ -24,11 +24,11 @@ Monster::Monster()
 	this->isAtk = false;
     this->isActive = false;
     this->atkTime = 0;
+    this->isDead = false;
 	
     this->proBg = NULL;
     this->skill = NULL;
     this->ptSkill = NULL;
-    
 	m_taget = NULL;
 	schedule(schedule_selector(Monster::updateLoop));
 }
@@ -103,6 +103,28 @@ void Monster::setGameLayer(GameLayer *layer)
 
 void Monster::updateLoop(float delta)
 {
+    if(isDead == true)
+    {
+        this->setColor(Color3B::GRAY);
+        
+        if(ptSkill != NULL)
+        {
+            ptSkill->removeFromParent();
+            ptSkill = NULL;
+        }
+        if(skill != NULL)
+        {
+            skill->removeFromParent();
+            skill = NULL;
+        }
+        if(proBg != NULL)
+        {
+            proBg->removeFromParent();
+            proBg = NULL;
+        }
+        
+        return;
+    }
 	if(m_taget != NULL)
 	{
         if(m_taget->isDead == false)

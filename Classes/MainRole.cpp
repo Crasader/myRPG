@@ -90,8 +90,9 @@ void MainRole::attack()
             m_target->hp -= 10;
             if(m_target->hp <= 0)
             {
-                auto fadeout = CCFadeOut::create(1.5);
-                m_target->runAction(fadeout);
+                m_target->isDead = true;
+//                auto fadeout = CCFadeOut::create(1.5);
+//                m_target->runAction(fadeout);
             }
             
             {

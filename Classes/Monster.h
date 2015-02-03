@@ -27,6 +27,7 @@ public:
     bool isAtk;
 	float atkTime;
     
+    bool isDead;
     bool isActive;
 //    bool isPause;
 	GameLayer * m_gameLayer;
