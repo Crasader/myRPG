@@ -21,6 +21,7 @@ public:
     int chance;
     int lv;
     int skID;
+    float atkLen ;
     void jump(Vec2 from ,Vec2 to);
 	void move(Vec2 from ,Vec2 to);
 	void attack();

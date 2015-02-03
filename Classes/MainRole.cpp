@@ -6,6 +6,7 @@
 #define JUMP_STEP_LEN (100)
 #define MOVE_STEP_LEN (2.9)
 #define JUMP_INTERVAL (0.3)
+#define ATTACK_LEN (80)
 
 
 MainRole::MainRole()
@@ -15,6 +16,7 @@ MainRole::MainRole()
     this->def=6;
     this->atk=3;
     this->chance=1;
+    this->atkLen = ATTACK_LEN;
     this->isDead = false;
     this->m_target = NULL;
 //    this->isPause = false;
@@ -76,6 +78,32 @@ void MainRole::attack()
     {
         return;
     }
+    
+    if(this->m_target != NULL)
+    {
+        Vec2 monsterPos = m_target->getPosition();
+        
+        Vec2 rolePos = this->getPosition();
+        float distance1 = rolePos.distance(monsterPos);
+        if(distance1 < atkLen)
+        {
+            m_target->hp -= 10;
+            if(m_target->hp <= 0)
+            {
+                auto fadeout = CCFadeOut::create(1.5);
+                m_target->runAction(fadeout);
+            }
+            
+            {
+                __String * hpValue = __String::createWithFormat("怪物生命:%d",m_target->hp);
+                m_gameLayer->monsterHP->setString(hpValue->getCString());
+            }
+        }
+        else
+        {
+            //向目标移动一小段距离
+        }
+    }
 	Blink * blink = Blink::create(1.0f, 5);
     this->runAction(blink);
 }
@@ -103,6 +131,11 @@ void MainRole::setTarget(Monster * monster)
         }
         this->m_target = monster;
         this->m_target->setColor(Color3B::GREEN);
+        
+        m_gameLayer->monsterHP->setVisible(true);
+        
+        __String * hpValue = __String::createWithFormat("怪物生命:%d",m_target->hp);
+        m_gameLayer->monsterHP->setString(hpValue->getCString());
     }
     
 }

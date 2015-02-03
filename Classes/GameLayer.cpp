@@ -80,6 +80,17 @@ bool GameLayer::init()
         m_uiLayer->addChild(roleHP);
         roleHP->enableShadow(Color4B::RED,Size(2,-2),0);
     }
+    //monster label
+    {
+        
+        TTFConfig config2(FONT_NAME,40);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        monsterHP = Label::createWithTTF(config2,"怪物生命:0",TextHAlignment::LEFT);//创建label，并向左对其
+        monsterHP->setPosition(Vec2(visibleSize.width - 340,visibleSize.height - 40));
+        monsterHP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中
+        m_uiLayer->addChild(monsterHP);
+        monsterHP->enableShadow(Color4B::RED,Size(2,-2),0);
+        monsterHP->setVisible(false);
+    }
     //pause btn
     {
         Button *pauseBtn = Button::create("btn_pause.png","btn_pause_p.png");

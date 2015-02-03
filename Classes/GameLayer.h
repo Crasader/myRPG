@@ -28,6 +28,7 @@ public:
 	bool isPress;
     static bool isPause;
     Label * roleHP;
+    Label * monsterHP;
     
     Vec2 pressPoint;
     Vec2 movePoint;
