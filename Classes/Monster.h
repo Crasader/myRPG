@@ -7,7 +7,7 @@
 #include "GameLayer.h"
 
 USING_NS_CC;
-
+class MainRole;
 class Monster : public Sprite
 {
 public:
