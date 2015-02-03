@@ -36,7 +36,6 @@ public:
     bool isShortTime;
     float jumpInterval;
 
-	long millisecondNow()  ;
 
     void updateLoop(float delta);
 

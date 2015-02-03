@@ -33,6 +33,9 @@ bool GameLayer::init()
     touchMoveShow = NULL;
     isPause = false;
     
+    isShortTime = false;
+    jumpInterval = 0;
+    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -58,33 +61,35 @@ bool GameLayer::init()
 	this->setColor(cocos2d::Color3B::GREEN);
 
     
-    ////////////touch move show
-    touchMoveShow = Sprite::create("slider_track.png");
-    touchMoveShow->setVisible(false);
-    touchMoveShow->setOpacity(100);
-    touchMoveShow->setAnchorPoint(Vec2(0,0.5));
-    m_touchLayer->addChild(touchMoveShow);
+    //touch move show
+    {
+        touchMoveShow = Sprite::create("slider_track.png");
+        touchMoveShow->setVisible(false);
+        touchMoveShow->setOpacity(100);
+        touchMoveShow->setAnchorPoint(Vec2(0,0.5));
+        m_touchLayer->addChild(touchMoveShow);
+        
+    }
+    //hp label
+    {
+        
+        TTFConfig config2(FONT_NAME,60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        roleHP = Label::createWithTTF(config2,"生命:100",TextHAlignment::LEFT);//创建label，并向左对其
+        roleHP->setPosition(Vec2(40,visibleSize.height - 40));
+        roleHP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中
+        m_uiLayer->addChild(roleHP);
+        roleHP->enableShadow(Color4B::RED,Size(2,-2),0);
+    }
+    //pause btn
+    {
+        Button *pauseBtn = Button::create("btn_pause.png","btn_pause_p.png");
+        pauseBtn->setPosition(Vec2(visibleSize.width - 40,visibleSize.height - 40));
+        pauseBtn->addClickEventListener(GameLayer::onPause);
+        m_uiLayer->addChild(pauseBtn);
+        
+    }
     //////////////
     
-    //////////hp
-    TTFConfig config2(FONT_NAME,60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
-    roleHP = Label::createWithTTF(config2,"生命:100",TextHAlignment::LEFT);//创建label，并向左对其
-    roleHP->setPosition(Vec2(40,visibleSize.height - 40));
-    roleHP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中
-    m_uiLayer->addChild(roleHP);
-    roleHP->enableShadow(Color4B::RED,Size(2,-2),0);
-    //////////
-    
-    ////////////touch move show
-    
-    Button *pauseBtn = Button::create("btn_pause.png","btn_pause_p.png");
-    pauseBtn->setPosition(Vec2(visibleSize.width - 40,visibleSize.height - 40));
-    pauseBtn->addClickEventListener(GameLayer::onPause);
-    m_uiLayer->addChild(pauseBtn);
-    //////////////
-    
-    isShortTime = false;
-    jumpInterval = 0;
 	 auto listener1 = EventListenerTouchOneByOne::create();
     listener1->setSwallowTouches(true);
     listener1->onTouchBegan = [this](Touch* touch, Event* event){   
@@ -182,7 +187,6 @@ void GameLayer::updateLoop(float delta)
             {
                 MainRoleController::getInstance()->role->move(pressPoint,movePoint);
 				
-                
                 touchMoveShow->setVisible(true);
                 touchMoveShow->setScale(sqrtf(delt_x * delt_x + delt_y * delt_y) / touchMoveShow->getContentSize().width , 1);
                 touchMoveShow->setPosition(pressPoint);
@@ -193,14 +197,11 @@ void GameLayer::updateLoop(float delta)
                 touchMoveShow->setRotation(angle);
                 
             }
-            
         }
     }
     
     __String * hpValue = __String::createWithFormat("生命:%d",MainRoleController::getInstance()->role->hp);
     roleHP->setString(hpValue->getCString());
-    
-    
 }
 
 void GameLayer::menuCloseCallback(Ref* pSender)
@@ -216,10 +217,3 @@ void GameLayer::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
 }
-
-long GameLayer::millisecondNow()  
-{ 
-struct timeval tv; 
-  gettimeofday(&tv,NULL);   
-return ((long)(tv.tv_sec * 1000) + (long)(tv.tv_usec / 1000)); 
-} 
