@@ -34,21 +34,38 @@ bool MainMenuLayer::init()
     
     m_bgLayer->addChild(bgSp);
 
-    ///////
-    MenuItemFont::setFontName("fonts/汉仪细行楷简.ttf");
-    MenuItemFont::setFontSize(80);
-    auto item1 = MenuItemFont::create("开始", CC_CALLBACK_1(MainMenuLayer::onStart, this));
-    auto item2= MenuItemFont::create("未确定", CC_CALLBACK_1(MainMenuLayer::onTest, this));
-    auto item3 = MenuItemFont::create("设置", CC_CALLBACK_1(MainMenuLayer::onSetting, this));
+    {
+        TTFConfig config1("fonts/汉仪细行楷简.ttf",120);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        auto failString = Label::createWithTTF(config1,"我的RPG",TextHAlignment::LEFT);//创建label，并向左对其
+        failString->setPosition(Vec2(visibleSize.width / 2,visibleSize.height - 200));
+        failString->setAnchorPoint(Vec2::ANCHOR_MIDDLE);//设置锚点居中
+        failString->enableShadow(Color4B::RED,Size(2,-2),0);
+        m_bgLayer->addChild(failString);
+    }
     
-    
-    auto menu = Menu::create( item1, item2, item3,  nullptr);
-    menu->alignItemsVertically();
-//    menu->setColor(Color3B::BLUE);
-    menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
-
-    m_menuLayer->addChild(menu);
-    
+    {
+        TTFConfig config2("fonts/汉仪细行楷简.ttf",80);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        
+        auto label1 = Label::createWithTTF(config2,"开始");
+        label1->enableShadow(Color4B::GREEN,Size(2,-2),0);
+        auto item1 = MenuItemLabel::create(label1, CC_CALLBACK_1(MainMenuLayer::onStart, this));
+        
+        auto label2 = Label::createWithTTF(config2,"未确定");
+        label2->enableShadow(Color4B::GREEN,Size(2,-2),0);
+        auto item2= MenuItemLabel::create(label2, CC_CALLBACK_1(MainMenuLayer::onTest, this));
+        
+        auto label3 = Label::createWithTTF(config2,"设置");
+        label3->enableShadow(Color4B::GREEN,Size(2,-2),0);
+        auto item3 = MenuItemLabel::create(label3, CC_CALLBACK_1(MainMenuLayer::onSetting, this));
+        
+        auto menu = Menu::create( item1, item2, item3,  nullptr);
+        menu->alignItemsVertically();
+        
+        menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+        
+        m_menuLayer->addChild(menu);
+    }
+   
     return true;
 }
 
