@@ -72,13 +72,21 @@ bool GameLayer::init()
     }
     //hp label
     {
-        
-        TTFConfig config2(FONT_NAME,60);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
-        roleHP = Label::createWithTTF(config2,"生命:100",TextHAlignment::LEFT);//创建label，并向左对其
-        roleHP->setPosition(Vec2(40,visibleSize.height - 40));
+        TTFConfig config2(FONT_NAME,40);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        roleHP = Label::createWithTTF(config2,"生命值:100",TextHAlignment::LEFT);//创建label，并向左对其
+        roleHP->setPosition(Vec2(24,visibleSize.height - 24));
         roleHP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中
         m_uiLayer->addChild(roleHP);
         roleHP->enableShadow(Color4B::RED,Size(2,-2),0);
+    }
+    //mp label
+    {
+        TTFConfig config2(FONT_NAME,40);//初始化TTFConfig，第一个参数为字库的路径，第二个参数为字体大小
+        roleMP = Label::createWithTTF(config2,"魔法值:100",TextHAlignment::LEFT);//创建label，并向左对其
+        roleMP->setPosition(Vec2(24,visibleSize.height - 54));
+        roleMP->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);//设置锚点居中
+        m_uiLayer->addChild(roleMP);
+        roleMP->enableShadow(Color4B::RED,Size(2,-2),0);
     }
     //monster label
     {

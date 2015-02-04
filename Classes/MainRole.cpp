@@ -7,17 +7,22 @@
 #define MOVE_STEP_LEN (2.9)
 #define JUMP_INTERVAL (0.3)
 #define ATTACK_LEN (80)
+#define ATTACK_INTERVAL (1)
+#define JUMP_USE_MP (35)
 
 
 MainRole::MainRole()
 {
 	this->lv=1;
     this->hp=100;
+    this->mp = 100;
     this->def=6;
     this->atk=25;
     this->chance=1;
     this->atkLen = ATTACK_LEN;
     this->isDead = false;
+    this->isAtk = false;
+    this->atkInterval = ATTACK_INTERVAL;
     this->m_target = NULL;
 //    this->isPause = false;
     
@@ -49,10 +54,22 @@ void MainRole::setGameLayer(GameLayer *layer)
 
 void MainRole::jump(Vec2 from ,Vec2 to)
 {
-    if(this->isDead == true)
+    if(this->isDead == true || isAtk == true)
     {
         return;
     }
+    
+    int remainMP = mp - JUMP_USE_MP;
+    if(remainMP < 0 )
+    {
+        //提示魔法值不足
+        return;
+    }
+    mp = remainMP;
+    
+    __String * mpValue = __String::createWithFormat("魔法值:%d",mp);
+    m_gameLayer->roleMP->setString(mpValue->getCString());
+    
 	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, JUMP_STEP_LEN);
                 
     MoveBy *move = MoveBy::create(JUMP_INTERVAL,Vec2(deltVec.x,deltVec.y));
@@ -61,7 +78,7 @@ void MainRole::jump(Vec2 from ,Vec2 to)
 
 void MainRole::move(Vec2 from ,Vec2 to)
 {
-    if(this->isDead == true)
+    if(this->isDead == true || isAtk == true)
     {
         return;
     }
@@ -74,11 +91,15 @@ void MainRole::move(Vec2 from ,Vec2 to)
 
 void MainRole::attack()
 {
-    if(this->isDead == true)
+    if(this->isDead == true || isAtk == true)
     {
         return;
     }
     
+    isAtk = true;
+        
+    scheduleOnce(schedule_selector(MainRole::resetAtkStatus),atkInterval);
+
     if(this->m_target != NULL && m_target->isDead == false)
     {
         Vec2 monsterPos = m_target->getPosition();
@@ -125,6 +146,11 @@ void MainRole::updateLoop(float delta)
         Director::getInstance()->replaceScene(FailLayer::createScene());
         
     }
+}
+
+void MainRole::resetAtkStatus(float delta)
+{
+    isAtk = false;
 }
 
 void MainRole::setTarget(Monster * monster)

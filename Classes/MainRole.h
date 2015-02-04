@@ -16,6 +16,7 @@ public:
 	static MainRole* create(const std::string& filename);
 
     int hp;
+    int mp;
     int def;
     int atk;
     int chance;
@@ -26,7 +27,9 @@ public:
 	void move(Vec2 from ,Vec2 to);
 	void attack();
 	
+    bool isAtk;
     bool isDead;
+    float atkInterval;
 //    bool isPause;
 	GameLayer * m_gameLayer;
     Monster * m_target;
@@ -35,6 +38,7 @@ public:
     
     void setTarget(Monster * monster);
     void updateLoop(float delta);
+    void resetAtkStatus(float delta);
 //    void pause();
 //    void resume();
 };
