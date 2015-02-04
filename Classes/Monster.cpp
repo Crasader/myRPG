@@ -12,14 +12,17 @@
 
 const string monsterSpImage[4] = {"m1.png","m2.png","m3.png","m4.png"};
 
-Monster::Monster()
+Monster::Monster(int type)
 {
+    this->type = type;
 	this->lv=1;
     this->hp=100;
     this->def=6;
     this->atk=3;
     this->chance=1;
-    this->skLen = 80;
+    this->skLen = setMonsterByType(type);
+
+
 	this->skIv = 1.8;
 	this->isAtk = false;
     this->isActive = false;
@@ -38,9 +41,9 @@ Monster::~Monster()
     
 }
 
-Monster* Monster::create(const std::string& filename)
+Monster* Monster::create(const std::string& filename,int type)
 {
-    Monster *sprite = new (std::nothrow) Monster();
+    Monster *sprite = new (std::nothrow) Monster(type);
     if (sprite && sprite->initWithFile(filename))
     {
         sprite->autorelease();
@@ -58,36 +61,27 @@ void Monster::attack()
 	}
     isAtk = true;
 
+    //绘制技能
+    skillPos = m_taget->getPosition();
+    drawSkillByType(type);
+    //绘制释放进度
 	proBg = Sprite::create("skProgressBg.png");
-	skill = Sprite::create("skill.png");
-	
-	proBg->setScale(3.0);
-	this->addChild(proBg);
-	this->m_gameLayer->m_skillLayer->addChild(skill);
-	
 	proBg->setPosition(this->getContentSize().width / 2,this->getContentSize().height / 2 + 50);
 	
-	skillPos = m_taget->getPosition();
-	skill->setPosition(skillPos.x, skillPos.y);
-
 	ProgressTo* progressTo = CCProgressTo::create(this->skIv,100);
 	//创建进度条渲染器，载体为精灵
 	ptSkill = ProgressTimer::create(Sprite::create("skProgress.png"));
 	ptSkill->setType(ProgressTimer::Type::BAR);
-
 	ptSkill->setBarChangeRate(Vec2(1,0));//高为100%  
-    ptSkill->setMidpoint(Vec2(0,0));//设置增长中心  
-
+    ptSkill->setMidpoint(Vec2(0,0));//设置增长中心
 	ptSkill->runAction(progressTo);
-	
 	ptSkill->setPosition(this->getContentSize().width / 2 ,this->getContentSize().height / 2 + 50);
-
-	ptSkill->setScale(3.0);
-
+    
+    this->addChild(proBg);
+    this->m_gameLayer->m_skillLayer->addChild(skill);
 	this->addChild(ptSkill);
 	
-	CCLOG("attack getPositionY = %f getPositionY = %f",getPositionX(),getPositionY());
-
+	//CCLOG("attack getPositionY = %f getPositionY = %f",getPositionX(),getPositionY());
 }
 
 void Monster::setTaget(MainRole *taget)
@@ -172,10 +166,7 @@ void Monster::updateLoop(float delta)
 
 				if(atkTime >= this->skIv)
 				{
-                    Vec2 rolePos = m_taget->getPosition();
-                    Vec2 deltPos = rolePos - skillPos;
-                    float distance = rolePos.distance(skillPos);
-                    if(distance < this->skLen)
+                    if(checkSillHitByType(type) == true)
                     {
                         m_taget->hp -= 20;
                     }
@@ -224,6 +215,117 @@ void Monster::updateLoop(float delta)
 	}
 }
 
+int Monster::setMonsterByType(int type)
+{
+    int result = 0;
+    switch (type)
+    {
+        case 0:
+        {
+            result = 80;
+        }
+            break;
+        case 1:
+        {
+            
+            result = 180;
+        }
+            break;
+            
+        default:
+        {
+            
+            result = 180;
+        }
+            break;
+    }
+    
+    return result;
+}
+
+void Monster::drawSkillByType(int type)
+{
+    switch (type)
+    {
+        case 0:
+        {
+            skill = Sprite::create("skill.png");
+            skill->setPosition(skillPos.x, skillPos.y);
+        }
+            break;
+        case 1:
+        {
+            skill = Sprite::create("slider_gauge.png");
+            skill->cocos2d::Node::setAnchorPoint(Vec2(0,0.5));
+            skill->setPosition(getPosition().x, getPosition().y);
+            
+            float angle = CommonUtils::getAngleBy2Point(getPosition(),skillPos);
+            angle = -angle;
+            //解析几何里面，旋转是逆时针，而 setRotation 逆时针旋转，需要是负整数
+            skill->setRotation(angle);
+            
+        }
+            break;
+            
+        default:
+        {
+            skill = Sprite::create("slider_gauge.png");
+            skill->cocos2d::Node::setAnchorPoint(Vec2(0,0.5));
+            skill->setPosition(getPosition().x, getPosition().y);
+            
+            float angle = CommonUtils::getAngleBy2Point(getPosition(),skillPos);
+            angle = -angle;
+            //解析几何里面，旋转是逆时针，而 setRotation 逆时针旋转，需要是负整数
+            skill->setRotation(angle);
+        }
+            break;
+    }
+
+}
+
+bool Monster::checkSillHitByType(int type)
+{
+    bool result = false;
+    switch (type)
+    {
+        case 0:
+        {
+            Vec2 rolePos = m_taget->getPosition();
+            Vec2 deltPos = rolePos - skillPos;
+            float distance = rolePos.distance(skillPos);
+            if(distance < this->skLen)
+            {
+                result = true;
+            }
+        }
+            break;
+        case 1:
+        {
+            float angle = CommonUtils::getAngleBy2Point(getPosition(),skillPos);
+            float distance = CommonUtils::getDistanceOfPoint2Line(getPosition(), angle,m_taget->getPosition());
+            
+            if(distance <= (skill->getContentSize().height / 2))
+            {
+                result = true;
+            }
+        }
+            break;
+            
+        default:
+        {
+            float angle = CommonUtils::getAngleBy2Point(getPosition(),skillPos);
+            float distance = CommonUtils::getDistanceOfPoint2Line(getPosition(), angle,m_taget->getPosition());
+            
+            if(distance <= (skill->getContentSize().height / 2))
+            {
+                result = true;
+            }
+        }
+            break;
+    }
+    
+    return result;
+}
 //void Monster::pause()
 //{
 //    isPause = true;

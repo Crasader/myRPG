@@ -48,9 +48,11 @@ void MainRoleController::checkRoleTarget()
             continue;
         }
         Vec2 monsterPos = monsters.at(i)->getPosition();
-        
         Vec2 rolePos = MainRoleController::getInstance()->role->getPosition();
         float distance1 = rolePos.distance(monsterPos);
+//        CCLOG("checkRoleTarget1 i = %d monsterPos.x  = %f monsterPos.y = %f" ,i,monsterPos.x,monsterPos.y);
+//        CCLOG("checkRoleTarget2 i = %d rolePos.x  = %f rolePos.y = %f" ,i,rolePos.x,rolePos.y);
+//        CCLOG("checkRoleTarget3 i = %d distance1 = %f" ,i,distance1);
         if(distance1 < distance)
         {
             distance = distance1;

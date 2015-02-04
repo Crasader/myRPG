@@ -67,6 +67,23 @@ float CommonUtils::getAngleBy2Point(Vec2 start_pos,Vec2 pos)
     return angle;
 }
 
+float CommonUtils::getDistanceOfPoint2Line(Vec2 sendPos,float angle,Vec2 pos)
+{
+    float x1 = abs(pos.x - sendPos.x);
+    float y1 = abs(pos.y - sendPos.y);
+    
+    float tan_a = tan(angle * M_PI / 180);
+    float cos_a = cos(angle * M_PI / 180);
+    
+    float temp1 = (x1 * tan_a);
+    float temp2 = (y1 -  temp1);
+    float temp3 = cos_a *  temp2;
+    
+    float distance = abs( temp3 );
+    return distance;
+}
+
+
 float CommonUtils::getPositionDivByLen(float parentLen,float childLen,int childCount,int childIndex)
 {
     return ((parentLen - (childLen * childCount)) / (childCount + 1)) * childIndex  + (childLen / 2) + (childIndex -1) * childLen;
@@ -187,7 +204,22 @@ Vec2 CommonUtils::getVecByAngleAndLen(Vec2 from,Vec2 to,float len)
 
     
     float delt_y = sqrtf((float)len * (float)len * y_len * y_len / (x_len * x_len + y_len * y_len));
-    float delt_x = x_len * delt_y  / y_len;
+    float delt_x = 0;
+    if(delt_y == 0)
+    {
+        if(x_len > 0)
+        {
+            delt_x = len;
+        }
+        else
+        {
+            delt_x = -len;
+        }
+    }
+    else
+    {
+        delt_x = x_len * delt_y  / y_len;
+    }
     
     if(x_len > 0)
     {
@@ -206,6 +238,11 @@ Vec2 CommonUtils::getVecByAngleAndLen(Vec2 from,Vec2 to,float len)
     {
         delt_y = -abs(delt_y);
     }
+    CCLOG("getVecByAngleAndLen from.x  = %f from.y = %f",from.x,from.y);
+    CCLOG("getVecByAngleAndLen to.x  = %f to.y = %f",to.x,to.y);
+    CCLOG("getVecByAngleAndLen delt_x  = %f delt_y = %f",delt_x,delt_y);
+    
+    
     return Vec2(delt_x, delt_y);
 }
 

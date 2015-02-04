@@ -32,7 +32,7 @@ void MonsterController::createMonster(GameLayer * layer)
     for (int i=0; i< 8; i++) {
 		int imgIdx = CommonUtils::RandAmongMinMax(0,4);
 
-        Monster * monster = (Monster *)Monster::create(monsterSpImage[imgIdx]);
+        Monster * monster = (Monster *)Monster::create(monsterSpImage[imgIdx],imgIdx);
         monsters.pushBack(monster);
         monster->setPosition(CommonUtils::RandAmongMinMax(0 + 40 ,visibleSize.width - 40 )
                                  ,CommonUtils::RandAmongMinMax(0 + 40,visibleSize.height - 40));

@@ -111,7 +111,7 @@ bool GameLayer::init()
 	 auto listener1 = EventListenerTouchOneByOne::create();
     listener1->setSwallowTouches(true);
     listener1->onTouchBegan = [this](Touch* touch, Event* event){   
-        CCLOG("touch menu");  
+        //CCLOG("touch menu");
 		pressPoint = touch->getLocation();
 		isPress = true;
         jumpInterval = 0;

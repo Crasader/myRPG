@@ -40,6 +40,9 @@ public:
     
     //求2点的角度
     static float getAngleBy2Point(Vec2 start_pos,Vec2 pos);
+    
+    //求从sendPos发出一个角度为angle的射线，与pos的垂直距离
+    static float getDistanceOfPoint2Line(Vec2 sendPos,float angle,Vec2 pos);
     //在parentLen里面等分的放入childCount个childLen，计算第childIndex个child的位置的中心点
     static float getPositionDivByLen(float parentLen,float childLen,int childCount,int childIndex);
 

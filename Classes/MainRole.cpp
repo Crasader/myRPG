@@ -83,7 +83,6 @@ void MainRole::move(Vec2 from ,Vec2 to)
         return;
     }
 	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, MOVE_STEP_LEN);
-                
     float spX = this->getPositionX();
     float spY = this->getPositionY();
     this->setPosition(spX + deltVec.x, spY + deltVec.y);
