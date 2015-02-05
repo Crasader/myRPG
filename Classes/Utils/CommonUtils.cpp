@@ -75,7 +75,7 @@ float CommonUtils::getDistanceOfPoint2Line(Vec2 sendPos,float angle,Vec2 pos)
     float tan_a = tan(angle * M_PI / 180);
     float cos_a = cos(angle * M_PI / 180);
     
-    float temp1 = (x1 * tan_a);
+    float temp1 = abs(x1 * tan_a);
     float temp2 = (y1 -  temp1);
     float temp3 = cos_a *  temp2;
     

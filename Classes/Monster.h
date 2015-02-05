@@ -46,7 +46,8 @@ public:
     
 	void setGameLayer(GameLayer *layer);
 	void setTaget(MainRole *taget);
-	void updateLoop(float delta);
+    void updateLoop(float delta);
+    void attacked(int damageValue);
 //    void pause();
 //    void resume();
 };

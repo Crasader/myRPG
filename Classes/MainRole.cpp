@@ -107,44 +107,28 @@ void MainRole::attack()
         float distance1 = rolePos.distance(monsterPos);
         if(distance1 < atkLen)
         {
-            m_target->hp -= atk;
-            if(m_target->hp <= 0)
-            {
-                m_target->hp = 0;
-                m_target->isDead = true;
-                m_gameLayer->monsterHP->setVisible(false);
-//                auto fadeout = CCFadeOut::create(1.5);
-//                m_target->runAction(fadeout);
-            }
-            else
-            {
-                m_gameLayer->monsterHP->setVisible(true);
-            }
-            
-            {
-                __String * hpValue = __String::createWithFormat("怪物生命:%d",m_target->hp);
-                m_gameLayer->monsterHP->setString(hpValue->getCString());
-            }
+            m_target->attacked(atk);
+
         }
         else
         {
             //向目标移动一小段距离
         }
     }
-	Blink * blink = Blink::create(1.0f, 5);
-    this->runAction(blink);
+    
+    Vec2 atkDir = CommonUtils::getVecByAngleAndLen(getPosition(), m_target->getPosition(), ATTACK_LEN);
+    
+    MoveBy * moveBy = MoveBy::create(0.5, atkDir);
+    Sequence * reverseseq = Sequence::create(moveBy,moveBy->reverse(),NULL);
+    
+    this->runAction(reverseseq);
+//	Blink * blink = Blink::create(1.0f, 5);
+//    this->runAction(blink);
 }
 
 void MainRole::updateLoop(float delta)
 {
-    if(this->hp <= 0 && this->isDead == false)
-    {
-        this->isDead = true;
-        this->setColor(Color3B(128, 128, 128));
-        
-        Director::getInstance()->replaceScene(FailLayer::createScene());
-        
-    }
+
 }
 
 void MainRole::resetAtkStatus(float delta)
@@ -170,6 +154,31 @@ void MainRole::setTarget(Monster * monster)
         m_gameLayer->monsterHP->setString(hpValue->getCString());
     }
     
+}
+
+void MainRole::attacked(int damageValue)
+{
+    if( this->isDead == true)
+    {
+        return;
+    }
+    this->hp -= 20;
+    if(this->hp <= 0 )
+    {
+        this->isDead = true;
+        this->hp = 0;
+        this->setColor(Color3B(128, 128, 128));
+        
+        Director::getInstance()->replaceScene(FailLayer::createScene());
+        
+    }
+    else
+    {
+        TintBy * tintby = TintBy::create(0.5, 255, 0, 0);
+        Sequence * seq = Sequence::create(tintby,tintby->reverse(),NULL);
+        
+        this->runAction(seq);
+    }
 }
 
 //void MainRole::pause()

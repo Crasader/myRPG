@@ -39,6 +39,7 @@ public:
     void setTarget(Monster * monster);
     void updateLoop(float delta);
     void resetAtkStatus(float delta);
+    void attacked(int damageValue);
 //    void pause();
 //    void resume();
 };

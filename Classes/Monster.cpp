@@ -168,7 +168,7 @@ void Monster::updateLoop(float delta)
 				{
                     if(checkSillHitByType(type) == true)
                     {
-                        m_taget->hp -= 20;
+                        m_taget->attacked(20);
                     }
                     
 					isAtk =  false;
@@ -326,6 +326,33 @@ bool Monster::checkSillHitByType(int type)
     
     return result;
 }
+
+void Monster::attacked(int damageValue)
+{
+    if(this->isDead == true)
+    {
+        return;
+    }
+    this->hp -= atk;
+    if(this->hp <= 0)
+    {
+        this->isDead = true;
+        this->hp = 0;
+        this->m_gameLayer->monsterHP->setVisible(false);
+//        auto fadeout = CCFadeOut::create(1.5);
+//        m_target->runAction(fadeout);
+    }
+    else
+    {
+        m_gameLayer->monsterHP->setVisible(true);
+    }
+    
+    {
+        __String * hpValue = __String::createWithFormat("怪物生命:%d",this->hp);
+        m_gameLayer->monsterHP->setString(hpValue->getCString());
+    }
+}
+
 //void Monster::pause()
 //{
 //    isPause = true;
