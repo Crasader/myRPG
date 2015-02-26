@@ -92,7 +92,8 @@ void Monster::setTaget(MainRole *taget)
 void Monster::setGameLayer(GameLayer *layer)
 {
 	m_gameLayer = layer;
-	m_gameLayer->m_roleLayer->addChild(this);
+    m_gameLayer->m_roleLayer->addChild(this);
+    CCLOG("Monster setGameLayer m_gameLayer = %d",m_gameLayer->getReferenceCount());
 }
 
 void Monster::updateLoop(float delta)
@@ -334,22 +335,43 @@ void Monster::attacked(int damageValue)
         return;
     }
     this->hp -= atk;
+
     if(this->hp <= 0)
     {
         this->isDead = true;
         this->hp = 0;
         this->m_gameLayer->monsterHP->setVisible(false);
-//        auto fadeout = CCFadeOut::create(1.5);
-//        m_target->runAction(fadeout);
     }
     else
     {
         m_gameLayer->monsterHP->setVisible(true);
+        auto blink = CCBlink::create(0.5,3);
+//        Sequence * seq = Sequence::create(fadeout,fadeout->reverse(),NULL);
+        this->runAction(blink);
     }
     
     {
         __String * hpValue = __String::createWithFormat("怪物生命:%d",this->hp);
         m_gameLayer->monsterHP->setString(hpValue->getCString());
+    }
+}
+
+void Monster::setFocus()
+{
+    focusImg = Sprite::create("skill.png");
+    focusImg->setOpacity(160);
+    focusImg->setScale(1, 0.3);
+    focusImg->setPosition(this->getContentSize().width / 2,0);
+    this->addChild(focusImg);
+    focusImg->setLocalZOrder(-1);
+}
+
+void Monster::setNoFocus()
+{
+    if(focusImg)
+    {
+        focusImg->removeFromParent();
+        focusImg = NULL;
     }
 }
 

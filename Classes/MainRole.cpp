@@ -118,12 +118,19 @@ void MainRole::attack()
     
     Vec2 atkDir = CommonUtils::getVecByAngleAndLen(getPosition(), m_target->getPosition(), ATTACK_LEN);
     
-    MoveBy * moveBy = MoveBy::create(0.5, atkDir);
-    Sequence * reverseseq = Sequence::create(moveBy,moveBy->reverse(),NULL);
+//    TintBy * tint = TintBy::create(1.0f, 255, 0, 0);
+//    Sequence * reverseseq = Sequence::create(tint,tint->reverse(),NULL);
+//    this->runAction(reverseseq);
     
-    this->runAction(reverseseq);
-//	Blink * blink = Blink::create(1.0f, 5);
-//    this->runAction(blink);
+    
+    ParticleSystem* ps = ParticleExplosion::create();
+    ps->setTexture(Director::getInstance()->getTextureCache()->addImage("skill.png"));
+    ps->setPosition(Point(this->getPosition().x +  this->getContentSize().width / 2,this->getPosition().y + this->getContentSize().height));
+    m_gameLayer->m_skillLayer->addChild(ps);
+    ps->setLife(0.03);
+    ps->setEmissionRate(250);
+    ps->setSpeed(400);
+    ps->setAutoRemoveOnFinish(true);
 }
 
 void MainRole::updateLoop(float delta)
@@ -143,10 +150,10 @@ void MainRole::setTarget(Monster * monster)
         if(this->m_target != NULL)
         {
             //颜色设置回去
-            this->m_target->setColor(Color3B(255,255,255));
+            this->m_target->setNoFocus();
         }
         this->m_target = monster;
-        this->m_target->setColor(Color3B::GREEN);
+        this->m_target->setFocus();
         
         m_gameLayer->monsterHP->setVisible(true);
         
@@ -174,10 +181,11 @@ void MainRole::attacked(int damageValue)
     }
     else
     {
-        TintBy * tintby = TintBy::create(0.5, 255, 0, 0);
-        Sequence * seq = Sequence::create(tintby,tintby->reverse(),NULL);
+//        TintBy * tintby = TintBy::create(1.5, 20, 0, 0);
+//        Sequence * seq = Sequence::create(tintby,tintby->reverse(),NULL);
         
-        this->runAction(seq);
+        auto blink = CCBlink::create(0.5,3);
+        this->runAction(blink);
     }
 }
 

@@ -46,14 +46,14 @@ bool GameLayer::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	m_bgLayer = Layer::create();
-	m_skillLayer = Layer::create();
-	m_roleLayer = Layer::create();
+    m_roleLayer = Layer::create();
+    m_skillLayer = Layer::create();
 	m_uiLayer = Layer::create();
 	m_touchLayer = Layer::create();
 
 	this->addChild(m_bgLayer,1);
-	this->addChild(m_skillLayer,2);
-	this->addChild(m_roleLayer,3);
+    this->addChild(m_roleLayer,2);
+    this->addChild(m_skillLayer,3);
 	this->addChild(m_touchLayer,4);
 	this->addChild(m_uiLayer,1000);
 

@@ -238,9 +238,9 @@ Vec2 CommonUtils::getVecByAngleAndLen(Vec2 from,Vec2 to,float len)
     {
         delt_y = -abs(delt_y);
     }
-    CCLOG("getVecByAngleAndLen from.x  = %f from.y = %f",from.x,from.y);
-    CCLOG("getVecByAngleAndLen to.x  = %f to.y = %f",to.x,to.y);
-    CCLOG("getVecByAngleAndLen delt_x  = %f delt_y = %f",delt_x,delt_y);
+//    CCLOG("getVecByAngleAndLen from.x  = %f from.y = %f",from.x,from.y);
+//    CCLOG("getVecByAngleAndLen to.x  = %f to.y = %f",to.x,to.y);
+//    CCLOG("getVecByAngleAndLen delt_x  = %f delt_y = %f",delt_x,delt_y);
     
     
     return Vec2(delt_x, delt_y);

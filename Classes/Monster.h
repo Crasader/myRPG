@@ -48,6 +48,9 @@ public:
 	void setTaget(MainRole *taget);
     void updateLoop(float delta);
     void attacked(int damageValue);
+    Sprite * focusImg;
+    void setFocus();
+    void setNoFocus();
 //    void pause();
 //    void resume();
 };
