@@ -14,6 +14,11 @@
 const string bgImage[2] = {"bg1.jpg","bg2.jpg"};
 bool GameLayer::isPause = false;
 
+GameLayer::~GameLayer()
+{
+    MonsterController::getInstance()->monsters.clear();
+}
+
 Scene* GameLayer::createScene()
 {
     auto scene = Scene::create();

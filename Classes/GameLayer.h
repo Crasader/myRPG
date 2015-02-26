@@ -8,7 +8,8 @@ USING_NS_CC;
 class GameLayer : public cocos2d::Layer
 {
 public:
-
+    
+    ~GameLayer();
     static cocos2d::Scene* createScene();
 
 
