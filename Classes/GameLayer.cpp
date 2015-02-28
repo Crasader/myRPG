@@ -229,6 +229,9 @@ void GameLayer::updateLoop(float delta)
     
     __String * hpValue = __String::createWithFormat("生命:%d",MainRoleController::getInstance()->role->hp);
     roleHP->setString(hpValue->getCString());
+    
+    __String * mpValue = __String::createWithFormat("魔法值:%d",(int)floor(MainRoleController::getInstance()->role->mp));
+    roleMP->setString(mpValue->getCString());
 }
 
 void GameLayer::menuCloseCallback(Ref* pSender)

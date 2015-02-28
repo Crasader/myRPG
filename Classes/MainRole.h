@@ -16,13 +16,14 @@ public:
 	static MainRole* create(const std::string& filename);
 
     int hp;
-    int mp;
+    float mp;
     int def;
     int atk;
     int chance;
     int lv;
     int skID;
     float atkLen ;
+    float mpRecover;
     void jump(Vec2 from ,Vec2 to);
 	void move(Vec2 from ,Vec2 to);
 	void attack();

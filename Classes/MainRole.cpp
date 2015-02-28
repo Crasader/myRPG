@@ -8,18 +8,19 @@
 #define JUMP_INTERVAL (0.3)
 #define ATTACK_LEN (80)
 #define ATTACK_INTERVAL (1)
-#define JUMP_USE_MP (35)
+#define JUMP_USE_MP (35.0)
 
 
 MainRole::MainRole()
 {
 	this->lv=1;
     this->hp=100;
-    this->mp = 100;
+    this->mp = 100.0;
     this->def=6;
     this->atk=25;
     this->chance=1;
     this->atkLen = ATTACK_LEN;
+    this->mpRecover = 6.5;
     this->isDead = false;
     this->isAtk = false;
     this->atkInterval = ATTACK_INTERVAL;
@@ -59,7 +60,7 @@ void MainRole::jump(Vec2 from ,Vec2 to)
         return;
     }
     
-    int remainMP = mp - JUMP_USE_MP;
+    float remainMP = mp - JUMP_USE_MP;
     if(remainMP < 0 )
     {
         //提示魔法值不足
@@ -67,8 +68,8 @@ void MainRole::jump(Vec2 from ,Vec2 to)
     }
     mp = remainMP;
     
-    __String * mpValue = __String::createWithFormat("魔法值:%d",mp);
-    m_gameLayer->roleMP->setString(mpValue->getCString());
+//    __String * mpValue = __String::createWithFormat("魔法值:%d",(int)floor(mp));
+//    m_gameLayer->roleMP->setString(mpValue->getCString());
     
 	Vec2 deltVec = CommonUtils::getVecByAngleAndLen(from, to, JUMP_STEP_LEN);
                 
@@ -135,7 +136,15 @@ void MainRole::attack()
 
 void MainRole::updateLoop(float delta)
 {
-
+    if(mp < 100.0)
+    {
+        float incMp = mpRecover * delta;
+        mp += incMp;
+    }
+    else
+    {
+        mp = 100.0;
+    }
 }
 
 void MainRole::resetAtkStatus(float delta)
