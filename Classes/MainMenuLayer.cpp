@@ -2,6 +2,7 @@
 #include "GameLayer.h"
 #include "SettingLayer.h"
 #include "TestLayer.h"
+#include "Test2Layer.h"
 #include "GameConst.h"
 
 Scene* MainMenuLayer::createScene()
@@ -78,7 +79,7 @@ void MainMenuLayer::onStart(Ref* sender)
 
 void MainMenuLayer::onTest(Ref* sender)
 {
-    Director::getInstance()->replaceScene(TestLayer::createScene());
+    Director::getInstance()->replaceScene(Test2Layer::createScene());
     
 }
 
