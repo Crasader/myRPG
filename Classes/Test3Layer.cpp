@@ -28,17 +28,18 @@ bool Test3Layer::init()
     this->addChild(m_bgLayer,1);
     this->addChild(m_menuLayer,2);
     
-    //    Sprite * bgSp = Sprite::create("bg_home.png");
-    //    bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    //    bgSp->setScale(visibleSize.width / bgSp->getContentSize().width, visibleSize.height / bgSp->getContentSize().height);
-    //    m_bgLayer->addChild(bgSp);
+    Sprite * bgSp = Sprite::create("bg_lgame.png");
+    bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     
+    Sprite * f1 = Sprite::create("m1.png");
+    f1->setPosition(Vec2(visibleSize.width/2 + origin.x - 200, visibleSize.height/2 + origin.y - 300));
     
-    img = new Image();
-    img->initWithImageFile("bg_lgame.png");
-    
-    img2 = new Image();
-    img2->initWithImageFile("bg_lgame.png");
+    bgSp->addChild(f1);
+    bgSp->retain();
+
+    srcImg = sprite2image(bgSp);
+
+    desImg = createEmptyImage(visibleSize.width, visibleSize.height);
     
     bgSp1 = Sprite::create("bg_lgame.png");
     bgSp1->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -63,14 +64,15 @@ bool Test3Layer::init()
         Vec2 releasePoint = touch->getLocationInView();
         if (flag==false) {
             
-            testFunc(releasePoint);
-            flag = true;
-        }else{
+            testFunc();
             
-            Sprite * sp = bgSp1;
-            texture = new (std::nothrow) Texture2D();
-            texture->initWithImage(img);
-            sp->setTexture(texture);
+            bgSp1->setScale(1.3, 1.0);
+            flag = true;
+        }
+        else
+        {
+            setImage(bgSp1,srcImg);
+            bgSp1->setScale(1.0, 1.0);
             flag = false;
         }
         
@@ -82,21 +84,30 @@ bool Test3Layer::init()
     return true;
 }
 
-void Test3Layer::testFunc(Vec2 p)
+void Test3Layer::testFunc()
 {
-    Sprite * sp = bgSp1;
+    transformImageSprite(bgSp1);
+}
+
+
+void Test3Layer::transformImage(Image * src,Image * des)
+{
+    Image * img = src;
+    
+    Image * img2 = des;
     
     unsigned char * data = img->getData();
     unsigned char * data2 = img2->getData();
     Texture2D::PixelFormat piexFormat =  img->getRenderFormat();
     bool hasA = img->hasAlpha();
+    int bitPrePixel = img->getBitPerPixel();
+    int bytePrePixel = bitPrePixel >>3;
     if(piexFormat == Texture2D::PixelFormat::RGBA8888 && hasA)
     {
+        int h = img2->getHeight();
+        int w = img2->getWidth();
         
-        int h = img->getHeight();
-        int w = img->getWidth();
-        
-        int c = (h / 2) * 2;
+        int w1 = img->getWidth();
         
         unsigned char *  piexData = data;
         unsigned char *  piexData2 = data2;
@@ -107,22 +118,16 @@ void Test3Layer::testFunc(Vec2 p)
         {
             for (int j=0; j < w; j++)
             {
-                int offset = (i*w + j) * 4;
-                piexData2[offset+0] = 0;
-                piexData2[offset+1] = 0;
-                piexData2[offset+2] = 0;
-                piexData2[offset+3] = 0;
+                int offset = (i*w + j) * bytePrePixel;
+                memset(piexData2 + offset, 0, bytePrePixel);
             }
         }
         
         for (int i=0; i < h; i++)
         {
             k = 0;
-            int xxx = sqrt(pow(c, 2) -pow(i-h/2, 2)) + (c);
-            if (xxx > c) {
-                xxx = c-(xxx-c);
-            }
-            int len = w-2*xxx;
+            int xxx = scanStartX(i);
+            int len = scanLenX(i);
             
             int left = xxx;
             int right = xxx + len;
@@ -131,33 +136,24 @@ void Test3Layer::testFunc(Vec2 p)
             
             for (int j=0; j < w; j++)
             {
-                int offset = (i*w + j) * 4;
-                if (j<left || j > right) {
-                    
-                    piexData2[offset+0] = 0;
-                    piexData2[offset+1] = 0;
-                    piexData2[offset+2] = 0;
-                    piexData2[offset+3] = 0;
+                int offset = (i*w + j) * bytePrePixel;
+                if (j<left || j > right)
+                {
+                    memset(piexData2 + offset, 0, bytePrePixel);
                     continue;
-                }else{
-                    float scaleX = ((float)w / (float)len);
+                }
+                else
+                {
+                    float scaleX = ((float)w1 / (float)len);
                     
                     int srcLen = (int)(k * scaleX + scaleX /2);
-                    int srcOffset = (i*w + srcLen) * 4;
-                    piexData2[offset+0]=piexData[srcOffset + 0];
-                    piexData2[offset+1]=piexData[srcOffset + 1];
-                    piexData2[offset+2]=piexData[srcOffset + 2];
-                    piexData2[offset+3]=piexData[srcOffset + 3];
+                    int srcOffset = (i*w + srcLen) * bytePrePixel;
+                    memcpy(piexData2 + offset, piexData + srcOffset, bytePrePixel);
                     k++;
                     
                 }
-                
             }
         }
-        
-        texture = new (std::nothrow) Texture2D();
-        texture->initWithImage(img2);
-        sp->setTexture(texture);
     }
     
     
@@ -175,3 +171,72 @@ void Test3Layer::onSetting(Ref* sender)
 {
     Director::getInstance()->popScene();
 }
+
+void Test3Layer::setImage(Sprite * sp,Image * img)
+{
+    Texture2D * texture = new (std::nothrow) Texture2D();
+    texture->initWithImage(img);
+    sp->setTexture(texture);
+}
+
+Image* Test3Layer::createEmptyImage(float w,float h)
+{
+    RenderTexture *render1 = CCRenderTexture::create(w, h, Texture2D::PixelFormat::RGBA8888);
+
+    render1->beginWithClear(0,0,0,0);
+    
+    render1->end();
+    Director::getInstance()->getRenderer()->render();
+    render1->retain();
+    
+    Image * img = render1->newImage();
+    return img;
+}
+
+Image* Test3Layer::sprite2image(Sprite * sp)
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    
+    RenderTexture *render = CCRenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888);
+
+    render->beginWithClear(0,0,0,0);
+    sp->visit();
+    render->end();
+    Director::getInstance()->getRenderer()->render();
+    render->retain();
+    
+    Image * img = render->newImage();
+    
+    return img;
+}
+
+void Test3Layer::transformImageSprite(Sprite * sp)
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+//    Image * img1 = createEmptyImage(visibleSize.width, visibleSize.height);
+//    Image * img2 = sprite2image(sp);
+    transformImage(srcImg,desImg);
+    setImage(sp,desImg);
+}
+
+int Test3Layer::scanStartX(int scanLineIdx)
+{
+    int h = desImg->getHeight();
+//    int w = img2->getWidth();
+    int c = (h / 2) * 2;
+    int x = sqrt(pow(c, 2) -pow(scanLineIdx-h/2, 2)) + (c);
+    if (x > c) {
+        x = c-(x-c);
+    }
+    return x;
+}
+
+
+int Test3Layer::scanLenX(int scanLineIdx)
+{
+//    int h = img2->getHeight();
+    int w = desImg->getWidth();
+    int len = w - 2 * scanStartX(scanLineIdx);
+    return len;
+}
+

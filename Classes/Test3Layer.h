@@ -23,14 +23,30 @@ public:
     void onSetting(Ref* sender);
     
     
-    Image * img;
-    Image * img2;
+    Image * srcImg;
+    Image * desImg;
     DrawNode * pEraser;
     Sprite * bgSp1;
     RenderTexture * pRTex;
     Texture2D * texture;
     bool flag;
-    void testFunc(Vec2 p);
+    void testFunc();
+    
+    
+    
+    Image* createEmptyImage(float w,float h);
+    
+    void setImage(Sprite * sp,Image * img);
+    
+    
+    Image* sprite2image(Sprite * sp);
+    void transformImage(Image * src,Image * des);
+    void transformImageSprite(Sprite * sp);
+    
+    int scanStartX(int scanLineIdx);
+    
+    int scanLenX(int scanLineIdx);
+    
     CREATE_FUNC(Test3Layer);
 };
 
