@@ -90,10 +90,11 @@ bool Test3Layer::init()
     
     
     schedule(schedule_selector(Test3Layer::updateLoop));
-    
-    inTime = 2.0;
+    exW = 0;
+    inTime = 4.0;
     desW = 40;
     timeCount = 0;
+    exflag = true;
     return true;
 }
 
@@ -101,10 +102,21 @@ void Test3Layer::updateLoop(float delta)
 {
     timeCount += delta;
     
-    exW = (desW * timeCount) /(inTime);
+    preFrameStepW = desW / delta;
     
-    if (exW > desW) {
-        exW = desW;
+    if (exflag) {
+        exW+=preFrameStepW;
+        if (exW >desW) {
+            exW = desW;
+            exflag = false;
+        }
+    } else {
+        
+        exW-=preFrameStepW;
+        if (exW <desW) {
+            exW = 0;
+            exflag = true;
+        }
     }
     testFunc();
 }
@@ -157,7 +169,7 @@ void Test3Layer::transformImage(Image * src,Image * des)
             int left = xxx;
             int right = xxx + len;
             
-            CCLOG("testFunc i = %d,xxx = %d ,xxx+len = %d",i,xxx,xxx + len);
+//            CCLOG("testFunc i = %d,xxx = %d ,xxx+len = %d",i,xxx,xxx + len);
             
             for (int j=0; j < w; j++)
             {
@@ -255,7 +267,9 @@ void Test3Layer::transformImageSprite(Sprite * sp)
     
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     
-    
+    if (desImg) {
+        desImg->release();
+    }
     desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
     
     transformImage(srcImg,desImg);
@@ -264,13 +278,8 @@ void Test3Layer::transformImageSprite(Sprite * sp)
 
 int Test3Layer::scanStartX(int scanLineIdx)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    int w = srcImg->getWidth();
-    int ww = desImg->getWidth();
-    
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     Size spSize = bgSp->getContentSize();
-    int spW =spSize.width;
     int startX = 0;
     if (exW == 0) {
         return startX;
@@ -295,8 +304,6 @@ int Test3Layer::scanStartX(int scanLineIdx)
     
     
     int h = desImg->getHeight();
-    //    int w = img2->getWidth();
-//    int cx = (h / 2) * 2;
     int cx = r;
     startX = sqrt(pow(cx, 2) -pow(scanLineIdx-h/2, 2)) + (cx);
     if (startX > cx) {

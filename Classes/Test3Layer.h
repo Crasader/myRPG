@@ -54,8 +54,9 @@ public:
     
     float inTime;
     float timeCount;
+    int preFrameStepW;
     
-    
+    bool exflag;
     
     CREATE_FUNC(Test3Layer);
 };
