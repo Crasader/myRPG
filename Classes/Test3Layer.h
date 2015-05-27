@@ -34,6 +34,7 @@ public:
     
     
     
+    void updateLoop(float delta);
     Image* createEmptyImage(float w,float h);
     
     void setImage(Sprite * sp,Image * img);
@@ -49,6 +50,12 @@ public:
     Vec2 circleP[3];
     
     int exW;
+    int desW;
+    
+    float inTime;
+    float timeCount;
+    
+    
     
     CREATE_FUNC(Test3Layer);
 };

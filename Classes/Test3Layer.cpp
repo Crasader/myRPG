@@ -36,7 +36,7 @@ bool Test3Layer::init()
     m_bgLayer->addChild(bgSp_);
     ///
     
-    exW = 40;
+//    exW = 40;
     
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -49,7 +49,7 @@ bool Test3Layer::init()
 
     srcImg = sprite2image(bgSp);
     
-    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
+//    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
     
     bgSp1 = Sprite::create("bg_lgame.png");
     bgSp1->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -89,7 +89,24 @@ bool Test3Layer::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,this);
     
     
+    schedule(schedule_selector(Test3Layer::updateLoop));
+    
+    inTime = 2.0;
+    desW = 40;
+    timeCount = 0;
     return true;
+}
+
+void Test3Layer::updateLoop(float delta)
+{
+    timeCount += delta;
+    
+    exW = (desW * timeCount) /(inTime);
+    
+    if (exW > desW) {
+        exW = desW;
+    }
+    testFunc();
 }
 
 void Test3Layer::testFunc()
@@ -234,6 +251,13 @@ void Test3Layer::transformImageSprite(Sprite * sp)
 //    Size visibleSize = Director::getInstance()->getVisibleSize();
 //    Image * img1 = createEmptyImage(visibleSize.width, visibleSize.height);
 //    Image * img2 = sprite2image(sp);
+    
+    
+    Sprite * bgSp = Sprite::create("bg_lgame.png");
+    
+    
+    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
+    
     transformImage(srcImg,desImg);
     setImage(sp,desImg);
 }
@@ -247,8 +271,10 @@ int Test3Layer::scanStartX(int scanLineIdx)
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     Size spSize = bgSp->getContentSize();
     int spW =spSize.width;
-    
-    
+    int startX = 0;
+    if (exW == 0) {
+        return startX;
+    }
     
     int x1= circleP[0].x = 0;
     int y1= circleP[0].y = 0;
@@ -272,7 +298,7 @@ int Test3Layer::scanStartX(int scanLineIdx)
     //    int w = img2->getWidth();
 //    int cx = (h / 2) * 2;
     int cx = r;
-    int startX = sqrt(pow(cx, 2) -pow(scanLineIdx-h/2, 2)) + (cx);
+    startX = sqrt(pow(cx, 2) -pow(scanLineIdx-h/2, 2)) + (cx);
     if (startX > cx) {
         startX = cx-(startX-cx);
     }
