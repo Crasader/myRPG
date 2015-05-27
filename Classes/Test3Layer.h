@@ -46,6 +46,9 @@ public:
     int scanStartX(int scanLineIdx);
     
     int scanLenX(int scanLineIdx);
+    Vec2 circleP[3];
+    
+    int exW;
     
     CREATE_FUNC(Test3Layer);
 };

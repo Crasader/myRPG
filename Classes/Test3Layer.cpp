@@ -28,6 +28,16 @@ bool Test3Layer::init()
     this->addChild(m_bgLayer,1);
     this->addChild(m_menuLayer,2);
     
+    ////
+    
+    Sprite * bgSp_ = Sprite::create("bg_home.png");
+    bgSp_->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    bgSp_->setScale(visibleSize.width / bgSp_->getContentSize().width, visibleSize.height / bgSp_->getContentSize().height);
+    m_bgLayer->addChild(bgSp_);
+    ///
+    
+    exW = 40;
+    
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     
@@ -38,8 +48,8 @@ bool Test3Layer::init()
     bgSp->retain();
 
     srcImg = sprite2image(bgSp);
-
-    desImg = createEmptyImage(visibleSize.width, visibleSize.height);
+    
+    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
     
     bgSp1 = Sprite::create("bg_lgame.png");
     bgSp1->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -66,13 +76,11 @@ bool Test3Layer::init()
             
             testFunc();
             
-            bgSp1->setScale(1.3, 1.0);
             flag = true;
         }
         else
         {
             setImage(bgSp1,srcImg);
-            bgSp1->setScale(1.0, 1.0);
             flag = false;
         }
         
@@ -147,13 +155,14 @@ void Test3Layer::transformImage(Image * src,Image * des)
                     float scaleX = ((float)w1 / (float)len);
                     
                     int srcLen = (int)(k * scaleX + scaleX /2);
-                    int srcOffset = (i*w + srcLen) * bytePrePixel;
+                    int srcOffset = (i*w1 + srcLen) * bytePrePixel;
                     memcpy(piexData2 + offset, piexData + srcOffset, bytePrePixel);
                     k++;
                     
                 }
             }
         }
+        
     }
     
     
@@ -176,7 +185,12 @@ void Test3Layer::setImage(Sprite * sp,Image * img)
 {
     Texture2D * texture = new (std::nothrow) Texture2D();
     texture->initWithImage(img);
+    
+    Rect rect = Rect::ZERO;
+    rect.size = texture->getContentSize();
+    
     sp->setTexture(texture);
+    sp->setTextureRect(rect, false, rect.size);
 }
 
 Image* Test3Layer::createEmptyImage(float w,float h)
@@ -197,7 +211,12 @@ Image* Test3Layer::sprite2image(Sprite * sp)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
-    RenderTexture *render = CCRenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888);
+    
+//    Sprite * bgSp = Sprite::create("bg_lgame.png");
+    
+    Size spSize = sp->getContentSize();
+    sp->setPosition(Vec2(spSize.width / 2, spSize.height / 2));
+    RenderTexture *render = RenderTexture::create(spSize.width, spSize.height, Texture2D::PixelFormat::RGBA8888);
 
     render->beginWithClear(0,0,0,0);
     sp->visit();
@@ -212,7 +231,7 @@ Image* Test3Layer::sprite2image(Sprite * sp)
 
 void Test3Layer::transformImageSprite(Sprite * sp)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+//    Size visibleSize = Director::getInstance()->getVisibleSize();
 //    Image * img1 = createEmptyImage(visibleSize.width, visibleSize.height);
 //    Image * img2 = sprite2image(sp);
     transformImage(srcImg,desImg);
@@ -221,14 +240,43 @@ void Test3Layer::transformImageSprite(Sprite * sp)
 
 int Test3Layer::scanStartX(int scanLineIdx)
 {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    int w = srcImg->getWidth();
+    int ww = desImg->getWidth();
+    
+    Sprite * bgSp = Sprite::create("bg_lgame.png");
+    Size spSize = bgSp->getContentSize();
+    int spW =spSize.width;
+    
+    
+    
+    int x1= circleP[0].x = 0;
+    int y1= circleP[0].y = 0;
+    int x2= circleP[1].x = -exW;
+    int y2= circleP[1].y = srcImg->getHeight() / 2;
+    int x3= circleP[2].x = 0;
+    int y3= circleP[2].y = srcImg->getHeight() ;
+    int a = 2*(x2-x1);
+    int b = 2 *(y2-y1);
+    int c = x2*x2 + y2*y2-x1*x1-y1*y1;
+    int d = 2*(x3-x2);
+    int e = 2*(y3-y2);
+    int f = x3*x3+y3*y3-x2*x2-y2*y2;
+    
+    int x=(b*f-e*c) / (b*d-e*a);
+    int y=(d*c-a*f)/(b*d-e*a);
+    int r=sqrt((x-x1)*(x-x1)+(y-y1)*(y-y1));
+    
+    
     int h = desImg->getHeight();
-//    int w = img2->getWidth();
-    int c = (h / 2) * 2;
-    int x = sqrt(pow(c, 2) -pow(scanLineIdx-h/2, 2)) + (c);
-    if (x > c) {
-        x = c-(x-c);
+    //    int w = img2->getWidth();
+//    int cx = (h / 2) * 2;
+    int cx = r;
+    int startX = sqrt(pow(cx, 2) -pow(scanLineIdx-h/2, 2)) + (cx);
+    if (startX > cx) {
+        startX = cx-(startX-cx);
     }
-    return x;
+    return startX;
 }
 
 
