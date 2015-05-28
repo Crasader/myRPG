@@ -26,54 +26,31 @@ CC_CONSTRUCTOR_ACCESS:
     bool initWithDuration(float duration, int desW);
     
 protected:
-//    Vec2 _positionDelta;
-//    Vec2 _startPosition;
-//    Vec2 _previousPosition;
-    
     int exW;
     int _desW;
     
-    
-    float inTime;
-    float timeCount;
     int preFrameStepW;
     
     bool exflag;
     
-    Image * srcImg;
+    Image * _srcImg;
     Image * desImg;
     
     Vec2 circleP[3];
     bool flag;
-    void testFunc();
     
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ImageExpand);
-    
-    
-    //////////
-    
-    Sprite * bgSp1;
-    RenderTexture * pRTex;
-    Texture2D * texture;
-    
-    
-    
     
     Image* createEmptyImage(float w,float h);
     
     void setImage(Sprite * sp,Image * img);
     
-    
     Image* sprite2image(Sprite * sp);
     void transformImage(Image * src,Image * des);
     void transformImageSprite(Sprite * sp);
-    
     int scanStartX(int scanLineIdx);
-    
     int scanLenX(int scanLineIdx);
-    
-  
     
 };
 

@@ -1,8 +1,4 @@
 #include "ImageExpand.h"
-#include "MainMenuLayer.h"
-#include "GameConst.h"
-
-
 
 ImageExpand* ImageExpand::create(float duration, int desW)
 {
@@ -38,12 +34,9 @@ void ImageExpand::startWithTarget(Node *target)
     ActionInterval::startWithTarget(target);
     
     exW = 0;
-    inTime = 4.0;
-//    _desW = 40;
-    timeCount = 0;
     exflag = true;
     
-    srcImg = sprite2image((Sprite *)target);
+    _srcImg = sprite2image((Sprite *)target);
     desImg = NULL;
 //    _previousPosition = _startPosition = target->getPosition();
 }
@@ -63,14 +56,7 @@ void ImageExpand::update(float t)
     if (_target)
     {
 #if CC_ENABLE_STACKABLE_ACTIONS
-//        Vec2 currentPos = _target->getPosition();
-//        Vec2 diff = currentPos - _previousPosition;
-//        _startPosition = _startPosition + diff;
-//        Vec2 newPos =  _startPosition + (_positionDelta * t);
-//        _target->setPosition(newPos);
-//        _previousPosition = newPos;
-
-        preFrameStepW = _desW / t;
+        preFrameStepW = _desW / _duration * t;
         
         if (exflag) {
             exW+=preFrameStepW;
@@ -81,23 +67,18 @@ void ImageExpand::update(float t)
         } else {
             
             exW-=preFrameStepW;
-            if (exW <_desW) {
+            if (exW <0) {
                 exW = 0;
                 exflag = true;
             }
         }
+//        CCLOG("update exW = %d",exW);
 #else
         exW = _desW;
 #endif // CC_ENABLE_STACKABLE_ACTIONS
         
-        testFunc();
+        transformImageSprite((Sprite *)_target);
     }
-}
-///////////
-
-void ImageExpand::testFunc()
-{
-    transformImageSprite((Sprite *)_target);
 }
 
 
@@ -161,7 +142,6 @@ void ImageExpand::transformImage(Image * src,Image * des)
                     int srcOffset = (i*w1 + srcLen) * bytePrePixel;
                     memcpy(piexData2 + offset, piexData + srcOffset, bytePrePixel);
                     k++;
-                    
                 }
             }
         }
@@ -172,8 +152,10 @@ void ImageExpand::transformImage(Image * src,Image * des)
 }
 
 
-void ImageExpand::setImage(Sprite * sp,Image * img)
+void ImageExpand::setImage(Sprite * sp1,Image * img)
 {
+    Sprite * sp =(Sprite *)_target;
+    
     Texture2D * texture = new (std::nothrow) Texture2D();
     texture->initWithImage(img);
     
@@ -198,13 +180,9 @@ Image* ImageExpand::createEmptyImage(float w,float h)
     return img;
 }
 
-Image* ImageExpand::sprite2image(Sprite * sp)
+Image* ImageExpand::sprite2image(Sprite * sp1)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    
-    
-//    Sprite * bgSp = Sprite::create("bg_lgame.png");
-    
+    Sprite * sp =(Sprite *)_target;
     Size spSize = sp->getContentSize();
     sp->setPosition(Vec2(spSize.width / 2, spSize.height / 2));
     RenderTexture *render = RenderTexture::create(spSize.width, spSize.height, Texture2D::PixelFormat::RGBA8888);
@@ -222,26 +200,19 @@ Image* ImageExpand::sprite2image(Sprite * sp)
 
 void ImageExpand::transformImageSprite(Sprite * sp)
 {
-//    Size visibleSize = Director::getInstance()->getVisibleSize();
-//    Image * img1 = createEmptyImage(visibleSize.width, visibleSize.height);
-//    Image * img2 = sprite2image(sp);
-    
-    
-    Sprite * bgSp = Sprite::create("bg_lgame.png");
-    
     if (desImg && desImg->getReferenceCount() > 0) {
         desImg->release();
         desImg = NULL;
     }
-    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
+    desImg = createEmptyImage(_srcImg->getWidth() + exW * 2, _srcImg->getHeight());
     
-    transformImage(srcImg,desImg);
+    transformImage(_srcImg,desImg);
     setImage(sp,desImg);
 }
 
 int ImageExpand::scanStartX(int scanLineIdx)
 {
-    Sprite * bgSp = Sprite::create("bg_lgame.png");
+    Sprite * bgSp =(Sprite *)_target;
     Size spSize = bgSp->getContentSize();
     int startX = 0;
     if (exW == 0) {
@@ -251,9 +222,9 @@ int ImageExpand::scanStartX(int scanLineIdx)
     int x1= circleP[0].x = 0;
     int y1= circleP[0].y = 0;
     int x2= circleP[1].x = -exW;
-    int y2= circleP[1].y = srcImg->getHeight() / 2;
+    int y2= circleP[1].y = _srcImg->getHeight() / 2;
     int x3= circleP[2].x = 0;
-    int y3= circleP[2].y = srcImg->getHeight() ;
+    int y3= circleP[2].y = _srcImg->getHeight() ;
     int a = 2*(x2-x1);
     int b = 2 *(y2-y1);
     int c = x2*x2 + y2*y2-x1*x1-y1*y1;
