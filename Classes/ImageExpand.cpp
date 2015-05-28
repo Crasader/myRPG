@@ -1,139 +1,107 @@
-#include "Test3Layer.h"
+#include "ImageExpand.h"
 #include "MainMenuLayer.h"
 #include "GameConst.h"
-#include "ImageExpand.h"
 
-Scene* Test3Layer::createScene()
+
+
+ImageExpand* ImageExpand::create(float duration, int desW)
 {
-    auto scene = Scene::create();
-    auto layer = Test3Layer::create();
-    layer->setColor(cocos2d::Color3B::GREEN);
-    scene->addChild(layer);
+    ImageExpand *ret = new (std::nothrow) ImageExpand();
+    ret->initWithDuration(duration, desW);
+    ret->autorelease();
     
-    return scene;
+    return ret;
 }
 
-bool Test3Layer::init()
+bool ImageExpand::initWithDuration(float duration, int desW)
 {
-    if ( !Layer::init() )
+    if (ActionInterval::initWithDuration(duration))
     {
-        return false;
+        _desW = desW;
+        return true;
     }
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    m_bgLayer = Layer::create();
-    m_menuLayer = Layer::create();
-    
-    
-    this->addChild(m_bgLayer,1);
-    this->addChild(m_menuLayer,2);
-    
-    ////
-    
-    Sprite * bgSp_ = Sprite::create("bg_home.png");
-    bgSp_->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    bgSp_->setScale(visibleSize.width / bgSp_->getContentSize().width, visibleSize.height / bgSp_->getContentSize().height);
-    m_bgLayer->addChild(bgSp_);
-    ///
-    
-//    exW = 40;
-    
-    Sprite * bgSp = Sprite::create("bg_lgame.png");
-    bgSp->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    
-    Sprite * f1 = Sprite::create("m1.png");
-    f1->setPosition(Vec2(visibleSize.width/2 + origin.x - 200, visibleSize.height/2 + origin.y - 300));
-    
-    bgSp->addChild(f1);
-    bgSp->retain();
+    return false;
+}
 
-    srcImg = sprite2image(bgSp);
+ImageExpand* ImageExpand::clone() const
+{
+    // no copy constructor
+    auto a = new (std::nothrow) ImageExpand();
+    a->initWithDuration(_duration, _desW);
+    a->autorelease();
+    return a;
+}
+
+void ImageExpand::startWithTarget(Node *target)
+{
+    ActionInterval::startWithTarget(target);
     
-//    desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
-    
-    bgSp1 = Sprite::create("bg_lgame.png");
-    bgSp1->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    
-    m_bgLayer->addChild(bgSp1);
-    
-    flag = false;
-    
-    auto listener1 = EventListenerTouchOneByOne::create();
-    listener1->setSwallowTouches(true);
-    listener1->onTouchBegan = [this](Touch* touch, Event* event){
-        return true;
-    };
-    listener1->onTouchMoved = [this](Touch* touch, Event* event){
-        //        Vec2 movePoint = touch->getLocation();
-        Vec2 movePoint = touch->getLocationInView();
-        
-        //        testFunc(movePoint);
-    };
-    
-    listener1->onTouchEnded = [=](Touch* touch, Event* event){
-        Vec2 releasePoint = touch->getLocationInView();
-        if (flag==false) {
-            
-            testFunc();
-            
-            ImageExpand * action = ImageExpand::create(2.0,40);
-            bgSp1->runAction(action);
-            flag = true;
-        }
-        else
-        {
-            setImage(bgSp1,srcImg);
-            flag = false;
-        }
-        
-    };
-    
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1 ,this);
-    
-    
-//    schedule(schedule_selector(Test3Layer::updateLoop));
     exW = 0;
     inTime = 4.0;
-    desW = 40;
+//    _desW = 40;
     timeCount = 0;
     exflag = true;
     
-    
-    return true;
+    srcImg = sprite2image((Sprite *)target);
+    desImg = NULL;
+//    _previousPosition = _startPosition = target->getPosition();
 }
 
-void Test3Layer::updateLoop(float delta)
+ImageExpand* ImageExpand::reverse() const
 {
-    timeCount += delta;
-    
-    preFrameStepW = desW / delta;
-    
-    if (exflag) {
-        exW+=preFrameStepW;
-        if (exW >desW) {
-            exW = desW;
-            exflag = false;
-        }
-    } else {
-        
-        exW-=preFrameStepW;
-        if (exW <desW) {
-            exW = 0;
-            exflag = true;
-        }
+    return nullptr;
+//    return ImageExpand::create(_duration, Vec2( -_positionDelta.x, -_positionDelta.y));
+}
+
+
+void ImageExpand::update(float t)
+{
+    if (t == 0) {
+        return;
     }
-    testFunc();
-}
+    if (_target)
+    {
+#if CC_ENABLE_STACKABLE_ACTIONS
+//        Vec2 currentPos = _target->getPosition();
+//        Vec2 diff = currentPos - _previousPosition;
+//        _startPosition = _startPosition + diff;
+//        Vec2 newPos =  _startPosition + (_positionDelta * t);
+//        _target->setPosition(newPos);
+//        _previousPosition = newPos;
 
-void Test3Layer::testFunc()
+        preFrameStepW = _desW / t;
+        
+        if (exflag) {
+            exW+=preFrameStepW;
+            if (exW >_desW) {
+                exW = _desW;
+                exflag = false;
+            }
+        } else {
+            
+            exW-=preFrameStepW;
+            if (exW <_desW) {
+                exW = 0;
+                exflag = true;
+            }
+        }
+#else
+        exW = _desW;
+#endif // CC_ENABLE_STACKABLE_ACTIONS
+        
+        testFunc();
+    }
+}
+///////////
+
+void ImageExpand::testFunc()
 {
-    transformImageSprite(bgSp1);
+    transformImageSprite((Sprite *)_target);
 }
 
 
-void Test3Layer::transformImage(Image * src,Image * des)
+void ImageExpand::transformImage(Image * src,Image * des)
 {
     Image * img = src;
     
@@ -203,20 +171,8 @@ void Test3Layer::transformImage(Image * src,Image * des)
     
 }
 
-void Test3Layer::onStart(Ref* sender)
-{
-}
 
-void Test3Layer::onTest(Ref* sender)
-{
-}
-
-void Test3Layer::onSetting(Ref* sender)
-{
-    Director::getInstance()->popScene();
-}
-
-void Test3Layer::setImage(Sprite * sp,Image * img)
+void ImageExpand::setImage(Sprite * sp,Image * img)
 {
     Texture2D * texture = new (std::nothrow) Texture2D();
     texture->initWithImage(img);
@@ -228,7 +184,7 @@ void Test3Layer::setImage(Sprite * sp,Image * img)
     sp->setTextureRect(rect, false, rect.size);
 }
 
-Image* Test3Layer::createEmptyImage(float w,float h)
+Image* ImageExpand::createEmptyImage(float w,float h)
 {
     RenderTexture *render1 = CCRenderTexture::create(w, h, Texture2D::PixelFormat::RGBA8888);
 
@@ -242,7 +198,7 @@ Image* Test3Layer::createEmptyImage(float w,float h)
     return img;
 }
 
-Image* Test3Layer::sprite2image(Sprite * sp)
+Image* ImageExpand::sprite2image(Sprite * sp)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
@@ -264,7 +220,7 @@ Image* Test3Layer::sprite2image(Sprite * sp)
     return img;
 }
 
-void Test3Layer::transformImageSprite(Sprite * sp)
+void ImageExpand::transformImageSprite(Sprite * sp)
 {
 //    Size visibleSize = Director::getInstance()->getVisibleSize();
 //    Image * img1 = createEmptyImage(visibleSize.width, visibleSize.height);
@@ -273,8 +229,9 @@ void Test3Layer::transformImageSprite(Sprite * sp)
     
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     
-    if (desImg) {
+    if (desImg && desImg->getReferenceCount() > 0) {
         desImg->release();
+        desImg = NULL;
     }
     desImg = createEmptyImage(bgSp->getContentSize().width + exW * 2, bgSp->getContentSize().height);
     
@@ -282,7 +239,7 @@ void Test3Layer::transformImageSprite(Sprite * sp)
     setImage(sp,desImg);
 }
 
-int Test3Layer::scanStartX(int scanLineIdx)
+int ImageExpand::scanStartX(int scanLineIdx)
 {
     Sprite * bgSp = Sprite::create("bg_lgame.png");
     Size spSize = bgSp->getContentSize();
@@ -319,7 +276,7 @@ int Test3Layer::scanStartX(int scanLineIdx)
 }
 
 
-int Test3Layer::scanLenX(int scanLineIdx)
+int ImageExpand::scanLenX(int scanLineIdx)
 {
 //    int h = img2->getHeight();
     int w = desImg->getWidth();

@@ -51,6 +51,7 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		A51B9A091A814BC400DC7329 /* GameConst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A51B9A081A814BC400DC7329 /* GameConst.cpp */; };
 		A53BA73A1AF0D8240011B170 /* fountain_sign_big.png in Resources */ = {isa = PBXBuildFile; fileRef = A53BA7391AF0D8240011B170 /* fountain_sign_big.png */; };
+		A56D25471B16B11600941327 /* ImageExpand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A56D25451B16B11600941327 /* ImageExpand.cpp */; };
 		A571EDC31A795B7B00E4704B /* f1.png in Resources */ = {isa = PBXBuildFile; fileRef = A571EDC21A795B7B00E4704B /* f1.png */; };
 		A571EDC71A7968B600E4704B /* CommonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A571EDC51A7968B600E4704B /* CommonUtils.cpp */; };
 		A575EAB21A801B3100F867D5 /* slider_track.png in Resources */ = {isa = PBXBuildFile; fileRef = A575EAB11A801B3100F867D5 /* slider_track.png */; };
@@ -167,6 +168,8 @@
 		A51B9A071A81489F00DC7329 /* GameConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConst.h; sourceTree = "<group>"; };
 		A51B9A081A814BC400DC7329 /* GameConst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConst.cpp; sourceTree = "<group>"; };
 		A53BA7391AF0D8240011B170 /* fountain_sign_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fountain_sign_big.png; sourceTree = "<group>"; };
+		A56D25451B16B11600941327 /* ImageExpand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageExpand.cpp; sourceTree = "<group>"; };
+		A56D25461B16B11600941327 /* ImageExpand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageExpand.h; sourceTree = "<group>"; };
 		A571EDC21A795B7B00E4704B /* f1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = f1.png; sourceTree = "<group>"; };
 		A571EDC51A7968B600E4704B /* CommonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommonUtils.cpp; sourceTree = "<group>"; };
 		A571EDC61A7968B600E4704B /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
@@ -356,6 +359,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A56D25451B16B11600941327 /* ImageExpand.cpp */,
+				A56D25461B16B11600941327 /* ImageExpand.h */,
 				A5810DD71B13147000A0187B /* Test3Layer.cpp */,
 				A5810DD81B13147000A0187B /* Test3Layer.h */,
 				A5B734201AF1F522001F5DEF /* Test2Layer.cpp */,
@@ -607,6 +612,7 @@
 				A5810DD91B13147000A0187B /* Test3Layer.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				A5BD929F1A7EE19A00F79443 /* SettingLayer.cpp in Sources */,
+				A56D25471B16B11600941327 /* ImageExpand.cpp in Sources */,
 				A5B7274F1A7A947E00DF1B4F /* MainRole.cpp in Sources */,
 				A5B727521A7AB57D00DF1B4F /* Monster.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
