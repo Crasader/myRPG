@@ -21,43 +21,7 @@ public:
     void onTest(Ref* sender);
     
     void onSetting(Ref* sender);
-    
-    
-    Image * srcImg;
-    Image * desImg;
-    DrawNode * pEraser;
-    Sprite * bgSp1;
-    RenderTexture * pRTex;
-    Texture2D * texture;
     bool flag;
-    void testFunc();
-    
-    
-    
-    void updateLoop(float delta);
-    Image* createEmptyImage(float w,float h);
-    
-    void setImage(Sprite * sp,Image * img);
-    
-    
-    Image* sprite2image(Sprite * sp);
-    void transformImage(Image * src,Image * des);
-    void transformImageSprite(Sprite * sp);
-    
-    int scanStartX(int scanLineIdx);
-    
-    int scanLenX(int scanLineIdx);
-    Vec2 circleP[3];
-    
-    int exW;
-    int desW;
-    
-    float inTime;
-    float timeCount;
-    int preFrameStepW;
-    
-    bool exflag;
-    
     CREATE_FUNC(Test3Layer);
 };
 
