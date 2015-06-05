@@ -38,16 +38,18 @@ void ImageExpand::startWithTarget(Node *target)
     
     _srcImg = sprite2image((Sprite *)target);
     desImg = NULL;
+    
+    ttt = 0;
 //    _previousPosition = _startPosition = target->getPosition();
 }
 
 ImageExpand* ImageExpand::reverse() const
 {
     return nullptr;
-//    return ImageExpand::create(_duration, Vec2( -_positionDelta.x, -_positionDelta.y));
+//    return ImageExpand::create(_duration, -_desW);
 }
 
-
+//参数t，并不是时间差，而是所有时间的进度（从0到1）
 void ImageExpand::update(float t)
 {
     if (t == 0) {
@@ -56,23 +58,14 @@ void ImageExpand::update(float t)
     if (_target)
     {
 #if CC_ENABLE_STACKABLE_ACTIONS
-        preFrameStepW = _desW / _duration * t;
+        preFrameStepW = _desW  * t;
         
         if (exflag) {
-            exW+=preFrameStepW;
-            if (exW >_desW) {
-                exW = _desW;
-                exflag = false;
-            }
-        } else {
-            
-            exW-=preFrameStepW;
-            if (exW <0) {
-                exW = 0;
-                exflag = true;
-            }
+            exW=preFrameStepW;
         }
-//        CCLOG("update exW = %d",exW);
+        Vec2 pos = _target->getPosition();
+//        CCLOG("update x = %f ,y = %f",pos.x,pos.y);
+        CCLOG("update exW = %d",exW);
 #else
         exW = _desW;
 #endif // CC_ENABLE_STACKABLE_ACTIONS
@@ -90,6 +83,8 @@ void ImageExpand::transformImage(Image * src,Image * des)
     
     unsigned char * data = img->getData();
     unsigned char * data2 = img2->getData();
+    CCLOG("transformImage data = %d",data);
+    CCLOG("transformImage data2 = %d",data2);
     Texture2D::PixelFormat piexFormat =  img->getRenderFormat();
     bool hasA = img->hasAlpha();
     int bitPrePixel = img->getBitPerPixel();
@@ -132,6 +127,10 @@ void ImageExpand::transformImage(Image * src,Image * des)
                 if (j<left || j > right)
                 {
                     memset(piexData2 + offset, 0, bytePrePixel);
+//                    piexData2[offset + 0] = 255;
+//                    piexData2[offset + 1] = 0;
+//                    piexData2[offset + 2] = 0;
+//                    piexData2[offset + 3] = 255;
                     continue;
                 }
                 else

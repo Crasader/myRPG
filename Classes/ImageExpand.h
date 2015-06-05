@@ -39,6 +39,8 @@ protected:
     Vec2 circleP[3];
     bool flag;
     
+    float ttt;
+    
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(ImageExpand);
     
